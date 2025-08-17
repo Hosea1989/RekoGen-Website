@@ -59,6 +59,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Random brand text function (RekoGen or Japanese spelling)
+  const setRandomBrandText = () => {
+    const brandTextEl = document.querySelector('.navbar-brand.brand-text');
+    if (brandTextEl) {
+      const brandOptions = [
+        'Reko<span class="brand-accent">Gen</span>',
+        'レコ<span class="brand-accent">ジェン</span>'
+      ];
+      const randomBrand = brandOptions[Math.floor(Math.random() * brandOptions.length)];
+      brandTextEl.innerHTML = randomBrand;
+    }
+  };
+
   // Waitlist form
   const form = document.getElementById('waitlist-form');
   const emailInput = document.getElementById('email');
@@ -143,8 +156,81 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   includePartials().then(() => {
-    // After navbar/footer injected, re-attach theme toggle in case FAB was added later (some pages)
+    // After navbar/footer injected, set random brand text
+    setRandomBrandText();
+    
+    // Re-attach theme toggle in case FAB was added later (some pages)
     const fab = document.getElementById('theme-toggle-fab');
     attachToggle(fab);
+    
+    // Initialize before/after slider
+    initBeforeAfterSlider();
   });
-}); 
+});
+
+// Before/After Slider functionality
+function initBeforeAfterSlider() {
+  const slider = document.querySelector('.before-after-slider');
+  if (!slider) return;
+
+  const afterLayer = slider.querySelector('.slider-after');
+  const handle = slider.querySelector('.slider-handle');
+  if (!afterLayer || !handle) return;
+
+  let isPointerDown = false;
+  let pendingX = null;
+  let rafId = null;
+
+  const getPercentFromClientX = (clientX) => {
+    const rect = slider.getBoundingClientRect();
+    const clamped = Math.max(rect.left, Math.min(rect.right, clientX));
+    const pct = ((clamped - rect.left) / rect.width) * 100;
+    return Math.max(0, Math.min(100, pct));
+  };
+
+  const render = () => {
+    if (pendingX === null) return;
+    const percent = getPercentFromClientX(pendingX);
+    afterLayer.style.clipPath = `polygon(${percent}% 0, 100% 0, 100% 100%, ${percent}% 100%)`;
+    handle.style.left = `${percent}%`;
+    rafId = null;
+  };
+
+  const schedule = (clientX) => {
+    pendingX = clientX;
+    if (rafId === null) {
+      rafId = requestAnimationFrame(render);
+    }
+  };
+
+  const onPointerDown = (e) => {
+    isPointerDown = true;
+    slider.setPointerCapture?.(e.pointerId);
+    schedule(e.clientX);
+    e.preventDefault();
+  };
+
+  const onPointerMove = (e) => {
+    if (!isPointerDown) return;
+    schedule(e.clientX);
+  };
+
+  const onPointerUp = () => {
+    isPointerDown = false;
+  };
+
+  // Use Pointer Events for unified handling
+  handle.addEventListener('pointerdown', onPointerDown);
+  slider.addEventListener('pointerdown', (e) => {
+    if (e.target === slider || e.target.classList.contains('slider-line')) {
+      onPointerDown(e);
+    }
+  });
+  window.addEventListener('pointermove', onPointerMove, { passive: true });
+  window.addEventListener('pointerup', onPointerUp, { passive: true });
+
+  // Initialize at 50%
+  const rect = slider.getBoundingClientRect();
+  const midX = rect.left + rect.width * 0.5;
+  schedule(midX);
+} 

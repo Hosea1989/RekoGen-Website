@@ -36,7 +36,7 @@
         </video>
       </div>
       <div class="container position-relative">
-        <div class="row align-items-center g-5 py-5">
+        <div class="row align-items-center g-5 py-5 py-lg-5">
           <div class="col-12 col-lg-6">
             <h1 class="display-4 fw-bold mb-3">Find Your Next Anime</h1>
             <p class="lead text-secondary">RekoGen recommends anime tailored to your taste. Join Realms to discuss, add friends, and share anime you love.</p>
@@ -48,14 +48,34 @@
             <div class="text-secondary small mt-3">Currently in Beta — iOS via TestFlight. Android coming soon.</div>
           </div>
           <div class="col-12 col-lg-6 text-center">
-            <div class="device-mockup rounded-4 border border-secondary-subtle p-3">
-              <div class="ratio ratio-9x16 mockup-surface rounded-3 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                  <div class="badge bg-primary-subtle text-primary mb-2">Preview</div>
-                  <div class="h5 text-secondary mb-0">RekoGen App</div>
-                  <div class="small text-muted">Anime recommendations • Realms • Friends</div>
+            <div class="device-mockup mockup-hero rounded-4 border border-secondary-subtle p-3">
+              <div class="ratio ratio-9x16 mockup-surface rounded-3 position-relative overflow-hidden">
+                <!-- Before/After Slider -->
+                <div class="before-after-slider">
+                  <!-- Dark mode image (background) -->
+                  <div class="slider-layer slider-before" aria-hidden="true" style="background-image: url('assets/home_screen_dark.jpg');"></div>
+                  <!-- Light mode image (overlay) -->
+                  <div class="slider-layer slider-after" aria-hidden="true" style="background-image: url('assets/home_screen_light.jpg');"></div>
+                  <!-- Slider handle -->
+                  <div class="slider-handle">
+                    <div class="slider-line"></div>
+                    <div class="slider-circle">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 5L16 12L8 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 5L24 12L16 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <!-- Labels -->
+                  <div class="slider-label slider-label-left">Dark Mode</div>
+                  <div class="slider-label slider-label-right">Light Mode</div>
                 </div>
               </div>
+            </div>
+            <div class="text-center mt-3">
+              <div class="badge bg-primary-subtle text-primary mb-2">Interactive Preview</div>
+              <div class="h6 text-secondary mb-1">Drag to compare themes</div>
+              <div class="small text-muted">Light Mode • Dark Mode</div>
             </div>
           </div>
         </div>
@@ -63,27 +83,132 @@
       <div class="gradient-blob position-absolute top-0 start-50 translate-middle-x"></div>
     </header>
 
-    <!-- Poster marquee -->
-    <section class="poster-section py-4 border-top border-secondary-subtle">
+    <!-- Streaming sites carousel -->
+    <section class="streaming-section py-4 border-top border-secondary-subtle">
       <div class="container overflow-hidden">
-        <div class="poster-track">
-          <div class="poster p1">Shounen</div>
-          <div class="poster p2">Romance</div>
-          <div class="poster p3">Slice‑of‑Life</div>
-          <div class="poster p4">Mecha</div>
-          <div class="poster p5">Fantasy</div>
-          <div class="poster p6">Thriller</div>
-          <div class="poster p7">Sports</div>
-          <div class="poster p8">Isekai</div>
+        <div class="streaming-track">
+          <div class="streaming-site s1">
+            <a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/crunchyroll.jpg" alt="Crunchyroll" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s2">
+            <a href="https://www.funimation.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/funimation.webp" alt="Funimation" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s3">
+            <a href="https://www.netflix.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/netflix.jpg" alt="Netflix" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s4">
+            <a href="https://www.hulu.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/hulu0-square.jpg" alt="Hulu" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s5">
+            <a href="https://www.primevideo.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/primevideo.png" alt="Amazon Prime" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s6">
+            <a href="https://www.disneyplus.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/disneyplus.webp" alt="Disney+" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s7">
+            <a href="https://www.hidive.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/hidive.png" alt="HIDIVE" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s8">
+            <a href="https://vrv.co" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/vrv.webp" alt="VRV" class="streaming-logo">
+            </a>
+          </div>
           <!-- duplicate to create seamless loop -->
-          <div class="poster p1">Shounen</div>
-          <div class="poster p2">Romance</div>
-          <div class="poster p3">Slice‑of‑Life</div>
-          <div class="poster p4">Mecha</div>
-          <div class="poster p5">Fantasy</div>
-          <div class="poster p6">Thriller</div>
-          <div class="poster p7">Sports</div>
-          <div class="poster p8">Isekai</div>
+          <div class="streaming-site s1">
+            <a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/crunchyroll.jpg" alt="Crunchyroll" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s2">
+            <a href="https://www.funimation.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/funimation.webp" alt="Funimation" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s3">
+            <a href="https://www.netflix.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/netflix.jpg" alt="Netflix" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s4">
+            <a href="https://www.hulu.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/hulu0-square.jpg" alt="Hulu" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s5">
+            <a href="https://www.primevideo.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/primevideo.png" alt="Amazon Prime" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s6">
+            <a href="https://www.disneyplus.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/disneyplus.webp" alt="Disney+" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s7">
+            <a href="https://www.hidive.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/hidive.png" alt="HIDIVE" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s8">
+            <a href="https://vrv.co" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/vrv.webp" alt="VRV" class="streaming-logo">
+            </a>
+          </div>
+          <!-- third set for perfect seamless loop -->
+          <div class="streaming-site s1">
+            <a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/crunchyroll.jpg" alt="Crunchyroll" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s2">
+            <a href="https://www.funimation.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/funimation.webp" alt="Funimation" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s3">
+            <a href="https://www.netflix.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/netflix.jpg" alt="Netflix" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s4">
+            <a href="https://www.hulu.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/hulu0-square.jpg" alt="Hulu" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s5">
+            <a href="https://www.primevideo.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/primevideo.png" alt="Amazon Prime" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s6">
+            <a href="https://www.disneyplus.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/disneyplus.webp" alt="Disney+" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s7">
+            <a href="https://www.hidive.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/hidive.png" alt="HIDIVE" class="streaming-logo">
+            </a>
+          </div>
+          <div class="streaming-site s8">
+            <a href="https://vrv.co" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/vrv.webp" alt="VRV" class="streaming-logo">
+            </a>
+          </div>
         </div>
       </div>
     </section>
