@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Waitlist form
+  // Waitlist form with Supabase
   const form = document.getElementById('waitlist-form');
   const emailInput = document.getElementById('email');
   const messageEl = document.getElementById('waitlist-message');
@@ -86,34 +86,100 @@ document.addEventListener('DOMContentLoaded', () => {
   if (form && emailInput) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = emailInput.value.trim();
+      const submitBtn = form.querySelector('button[type="submit"]');
 
-      const isValid = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(email);
-      if (!isValid) {
+      const name = (document.getElementById('name') || {}).value?.trim() || '';
+      const email = emailInput.value.trim();
+      const platform = (document.getElementById('platform') || {}).value?.trim() || 'ios';
+      const experience = (document.getElementById('experience') || {}).value || '';
+      const referrer = (document.getElementById('referrer') || {}).value || '';
+      const notes = (document.getElementById('notes') || {}).value?.trim() || '';
+      const consent = (document.getElementById('consent') || {}).checked || false;
+
+      const isValidEmail = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(email);
+      if (!isValidEmail) {
         emailInput.classList.add('is-invalid');
         setMessage('Please enter a valid email.', 'danger');
         return;
       }
+      // Removed consent validation - now optional
 
       emailInput.classList.remove('is-invalid');
       setMessage('Submitting...', 'secondary');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting…'; }
 
       try {
-        await new Promise((res) => setTimeout(res, 800));
-        setMessage('Thanks! You\'re on the list. We\'ll be in touch soon.', 'success');
-        form.reset();
+        // Debug: Check if Supabase is available
+        console.log('Supabase URL:', window.SUPABASE_URL);
+        console.log('Supabase Key:', window.SUPABASE_ANON_KEY ? 'Present' : 'Missing');
+        console.log('Supabase object:', typeof supabase);
+
+        if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+          throw new Error('Supabase credentials not configured');
+        }
+
+        if (typeof supabase === 'undefined') {
+          throw new Error('Supabase client not loaded');
+        }
+
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
+        console.log('Supabase client created, attempting to insert...');
+
+        const payload = {
+          name,
+          email,
+          platform,
+          experience,
+          referrer,
+          notes,
+          consent,
+          page: location.href,
+          user_agent: navigator.userAgent
+        };
+
+        console.log('Payload:', payload);
+
+        const { data, error } = await supabaseClient
+          .from('waitlist')
+          .insert([payload])
+          .select();
+
+        console.log('Supabase response:', { data, error });
+
+        if (error) {
+          console.error('Supabase error details:', error);
+          if (error.code === '23505') { // Unique constraint violation
+            setMessage('This email is already on the waitlist!', 'warning');
+          } else if (error.code === '42P01') { // Table doesn't exist
+            setMessage('Database not set up yet. Please contact support.', 'danger');
+          } else {
+            setMessage(`Error: ${error.message}`, 'danger');
+          }
+        } else {
+          console.log('Success! Data inserted:', data);
+          setMessage('Thanks! You\'re on the list. We\'ll be in touch soon.', 'success');
+          form.reset();
+        }
       } catch (err) {
-        setMessage('Something went wrong. Please try again.', 'danger');
+        console.error('Submission error:', err);
+        setMessage(`Error: ${err.message}`, 'danger');
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Notify Me'; }
       }
     });
   }
 
-  // Contact form (Meet the Dev)
+  // Contact form (Meet the Dev) with Supabase
   const contactForm = document.getElementById('contact-form');
   const contactStatus = document.getElementById('contact-status');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      
       const name = (document.getElementById('contact-name') || {}).value?.trim() || '';
       const email = (document.getElementById('contact-email') || {}).value?.trim() || '';
       const message = (document.getElementById('contact-message') || {}).value?.trim() || '';
@@ -128,17 +194,65 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const subject = encodeURIComponent(`RekoGen contact from ${name}`);
-      const bodyLines = [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        '',
-        message
-      ];
-      const body = encodeURIComponent(bodyLines.join('\n'));
-      const mailto = `mailto:hello@rekogen.app?subject=${subject}&body=${body}`;
-      if (contactStatus) { contactStatus.className = 'small mt-3 text-secondary'; contactStatus.textContent = 'Opening your email client…'; }
-      window.location.href = mailto;
+      if (contactStatus) { contactStatus.className = 'small mt-3 text-secondary'; contactStatus.textContent = 'Sending...'; }
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
+
+      try {
+        // Debug: Check if Supabase is available
+        console.log('Contact form - Supabase URL:', window.SUPABASE_URL);
+        console.log('Contact form - Supabase Key:', window.SUPABASE_ANON_KEY ? 'Present' : 'Missing');
+        console.log('Contact form - Supabase object:', typeof supabase);
+
+        if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+          throw new Error('Supabase credentials not configured');
+        }
+
+        if (typeof supabase === 'undefined') {
+          throw new Error('Supabase client not loaded');
+        }
+
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
+        console.log('Contact form - Supabase client created, attempting to insert...');
+
+        const payload = {
+          name,
+          email,
+          message,
+          category: 'contact',
+          page: location.href,
+          user_agent: navigator.userAgent
+        };
+
+        console.log('Contact form - Payload:', payload);
+
+        const { data, error } = await supabaseClient
+          .from('feedback')
+          .insert([payload])
+          .select();
+
+        console.log('Contact form - Supabase response:', { data, error });
+
+        if (error) {
+          console.error('Contact form - Supabase error details:', error);
+          if (error.code === '42P01') { // Table doesn't exist
+            if (contactStatus) { contactStatus.className = 'small mt-3 text-danger'; contactStatus.textContent = 'Database not set up yet. Please contact support.'; }
+          } else {
+            if (contactStatus) { contactStatus.className = 'small mt-3 text-danger'; contactStatus.textContent = `Error: ${error.message}`; }
+          }
+        } else {
+          console.log('Contact form - Success! Data inserted:', data);
+          if (contactStatus) { contactStatus.className = 'small mt-3 text-success'; contactStatus.textContent = 'Message sent! I\'ll get back to you soon.'; }
+          contactForm.reset();
+        }
+      } catch (err) {
+        console.error('Contact form - Submission error:', err);
+        if (contactStatus) { contactStatus.className = 'small mt-3 text-danger'; contactStatus.textContent = `Error: ${err.message}`; }
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send Message'; }
+      }
     });
   }
 
