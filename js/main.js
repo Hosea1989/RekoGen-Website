@@ -40,6 +40,46 @@ document.addEventListener('DOMContentLoaded', () => {
   attachToggle(toggleBtn);
   attachToggle(toggleFab);
 
+  // Resend configuration - Replace with your actual API key
+  const RESEND_API_KEY = 're_HYZofdps_H7vYj61PhrcDuvrj5yJA8xfL';
+  const FROM_EMAIL = 'hello@rekogen.app'; // Your verified domain email
+
+  // Email sending function using Resend
+  async function sendEmail(to, subject, htmlContent, textContent = '') {
+    if (!RESEND_API_KEY || RESEND_API_KEY === 're_YOUR_API_KEY_HERE') {
+      console.warn('Resend API key not configured');
+      return { success: false, error: 'Email service not configured' };
+    }
+
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: FROM_EMAIL,
+          to: [to],
+          subject: subject,
+          html: htmlContent,
+          text: textContent || htmlContent.replace(/<[^>]*>/g, '') // Strip HTML for text version
+        })
+      });
+
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to send email');
+      }
+
+      return { success: true, data: result };
+    } catch (error) {
+      console.error('Email sending error:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
   // Partials loader
   async function includePartials() {
     const elements = document.querySelectorAll('[data-include]');
@@ -160,6 +200,44 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         } else {
           console.log('Success! Data inserted:', data);
+          
+          // Send welcome email
+          const welcomeEmail = await sendEmail(
+            email,
+            'Welcome to RekoGen! 🎬',
+            `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #111827;">Welcome to RekoGen! 🎬</h2>
+              <p>Hi ${name || 'there'},</p>
+              <p>Thanks for joining the RekoGen waitlist! You're now on the list to get early access to the app that helps you discover amazing anime and find where to watch them.</p>
+              
+              <h3 style="color: #374151;">What's Next?</h3>
+              <ul>
+                <li>📱 <strong>iOS Beta:</strong> Join our TestFlight for early access</li>
+                <li>🎯 <strong>Personalized Recommendations:</strong> Get anime picks tailored to your taste</li>
+                <li>🌐 <strong>Realms Community:</strong> Connect with fellow anime fans</li>
+                <li>📺 <strong>Streaming Info:</strong> Know exactly where to watch each anime</li>
+              </ul>
+              
+              <p>We'll keep you updated on our progress and let you know as soon as you can try RekoGen!</p>
+              
+              <p>Best regards,<br>Damien<br><em>Creator of RekoGen</em></p>
+              
+              <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+              <p style="font-size: 12px; color: #6b7280;">
+                You're receiving this because you joined the RekoGen waitlist. 
+                <a href="mailto:hello@rekogen.app" style="color: #3b82f6;">Unsubscribe</a>
+              </p>
+            </div>
+            `
+          );
+          
+          if (welcomeEmail.success) {
+            console.log('Welcome email sent successfully');
+          } else {
+            console.warn('Failed to send welcome email:', welcomeEmail.error);
+          }
+          
           setMessage('Thanks! You\'re on the list. We\'ll be in touch soon.', 'success');
           form.reset();
         }
@@ -182,14 +260,16 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const name = (document.getElementById('contact-name') || {}).value?.trim() || '';
       const email = (document.getElementById('contact-email') || {}).value?.trim() || '';
+      const feedbackType = (document.getElementById('contact-type') || {}).value?.trim() || '';
       const message = (document.getElementById('contact-message') || {}).value?.trim() || '';
 
       // simple validation
       const validEmail = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(email);
       if (!name) { contactForm.querySelector('#contact-name')?.classList.add('is-invalid'); } else { contactForm.querySelector('#contact-name')?.classList.remove('is-invalid'); }
       if (!validEmail) { contactForm.querySelector('#contact-email')?.classList.add('is-invalid'); } else { contactForm.querySelector('#contact-email')?.classList.remove('is-invalid'); }
+      if (!feedbackType) { contactForm.querySelector('#contact-type')?.classList.add('is-invalid'); } else { contactForm.querySelector('#contact-type')?.classList.remove('is-invalid'); }
       if (!message) { contactForm.querySelector('#contact-message')?.classList.add('is-invalid'); } else { contactForm.querySelector('#contact-message')?.classList.remove('is-invalid'); }
-      if (!name || !validEmail || !message) {
+      if (!name || !validEmail || !feedbackType || !message) {
         if (contactStatus) { contactStatus.className = 'small mt-3 text-danger'; contactStatus.textContent = 'Please complete all fields.'; }
         return;
       }
@@ -225,6 +305,11 @@ document.addEventListener('DOMContentLoaded', () => {
           page: location.href,
           user_agent: navigator.userAgent
         };
+        
+        // Add feedback_type to message if available
+        if (feedbackType) {
+          payload.message = `[${feedbackType.toUpperCase()}] ${message}`;
+        }
 
         console.log('Contact form - Payload:', payload);
 
@@ -244,6 +329,41 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         } else {
           console.log('Contact form - Success! Data inserted:', data);
+          
+          // Send notification email to you
+          const notificationEmail = await sendEmail(
+            'hello@rekogen.app', // Your email
+            `New ${feedbackType} from ${name} - RekoGen Contact`,
+            `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #111827;">New Contact Form Submission</h2>
+              
+              <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="color: #374151; margin-top: 0;">Contact Details</h3>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+                <p><strong>Feedback Type:</strong> ${feedbackType}</p>
+                <p><strong>Page:</strong> ${location.href}</p>
+              </div>
+              
+              <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="color: #92400e; margin-top: 0;">Message</h3>
+                <p style="white-space: pre-wrap;">${message}</p>
+              </div>
+              
+              <div style="margin-top: 20px;">
+                <a href="mailto:${email}?subject=Re: Your RekoGen feedback" style="background: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Reply to ${name}</a>
+              </div>
+            </div>
+            `
+          );
+          
+          if (notificationEmail.success) {
+            console.log('Notification email sent successfully');
+          } else {
+            console.warn('Failed to send notification email:', notificationEmail.error);
+          }
+          
           if (contactStatus) { contactStatus.className = 'small mt-3 text-success'; contactStatus.textContent = 'Message sent! I\'ll get back to you soon.'; }
           contactForm.reset();
         }

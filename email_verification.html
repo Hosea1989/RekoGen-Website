@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification - RekoGen</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 50px auto; 
+            padding: 20px; 
+            background: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section { 
+            margin: 30px 0; 
+            padding: 20px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+        .warning { color: #ffc107; }
+        button { 
+            padding: 10px 20px; 
+            margin: 10px 5px; 
+            cursor: pointer; 
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #6c757d; cursor: not-allowed; }
+        #results { 
+            margin-top: 20px; 
+            padding: 15px; 
+            background: #f8f9fa; 
+            border-radius: 5px; 
+            max-height: 400px; 
+            overflow-y: auto; 
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .config-item { 
+            margin: 10px 0; 
+            padding: 10px; 
+            background: #f9f9f9; 
+            border-radius: 5px; 
+            border-left: 4px solid #007bff;
+        }
+        .status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status.success { background: #28a745; }
+        .status.error { background: #dc3545; }
+        .status.warning { background: #ffc107; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 RekoGen Email Configuration Verification</h1>
+        
+        <div class="test-section">
+            <h2>Configuration Status</h2>
+            <div id="config-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test Email Functionality</h2>
+            <p>This will test your email setup using the same code as your website.</p>
+            
+            <button onclick="testWaitlistEmail()" id="test-waitlist-btn">
+                Test Waitlist Welcome Email
+            </button>
+            
+            <button onclick="testContactEmail()" id="test-contact-btn">
+                Test Contact Form Email
+            </button>
+            
+            <div id="results"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Instructions</h2>
+            <ol>
+                <li><strong>Deploy this page</strong> to your website (e.g., rekogen.app)</li>
+                <li><strong>Open the deployed page</strong> (not localhost)</li>
+                <li><strong>Click the test buttons</strong> to verify email functionality</li>
+                <li><strong>Check your email</strong> at hello@rekogen.app for test emails</li>
+            </ol>
+            
+            <div class="warning">
+                <strong>Note:</strong> Email testing won't work on localhost due to CORS restrictions. 
+                You must deploy this to a real domain to test properly.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your actual email configuration from main.js
+        const RESEND_API_KEY = 're_HYZofdps_H7vYj61PhrcDuvrj5yJA8xfL';
+        const FROM_EMAIL = 'hello@rekogen.app';
+
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const timestamp = new Date().toLocaleTimeString();
+            const statusClass = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
+            results.innerHTML += `<div class="${statusClass}">[${timestamp}] ${message}</div>`;
+            results.scrollTop = results.scrollHeight;
+        }
+
+        function checkConfiguration() {
+            const configStatus = document.getElementById('config-status');
+            
+            const checks = [
+                {
+                    name: 'API Key',
+                    status: RESEND_API_KEY && RESEND_API_KEY !== 're_YOUR_API_KEY_HERE' ? 'success' : 'error',
+                    message: RESEND_API_KEY ? 'API key is configured' : 'API key is missing or invalid'
+                },
+                {
+                    name: 'From Email',
+                    status: FROM_EMAIL ? 'success' : 'error',
+                    message: FROM_EMAIL ? `From email: ${FROM_EMAIL}` : 'From email is missing'
+                },
+                {
+                    name: 'Domain',
+                    status: window.location.hostname !== 'localhost' ? 'success' : 'warning',
+                    message: window.location.hostname !== 'localhost' ? 
+                        `Domain: ${window.location.hostname}` : 
+                        'Testing on localhost - emails may not work due to CORS'
+                }
+            ];
+
+            configStatus.innerHTML = checks.map(check => `
+                <div class="config-item">
+                    <span class="status ${check.status}"></span>
+                    <strong>${check.name}:</strong> ${check.message}
+                </div>
+            `).join('');
+        }
+
+        // Email sending function (same as your main.js)
+        async function sendEmail(to, subject, htmlContent, textContent = '') {
+            if (!RESEND_API_KEY || RESEND_API_KEY === 're_YOUR_API_KEY_HERE') {
+                throw new Error('Resend API key not configured');
+            }
+
+            const response = await fetch('https://api.resend.com/emails', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${RESEND_API_KEY}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    from: FROM_EMAIL,
+                    to: [to],
+                    subject: subject,
+                    html: htmlContent,
+                    text: textContent || htmlContent.replace(/<[^>]*>/g, '')
+                })
+            });
+
+            const result = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(result.message || 'Failed to send email');
+            }
+
+            return result;
+        }
+
+        async function testWaitlistEmail() {
+            const btn = document.getElementById('test-waitlist-btn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            
+            log('Starting waitlist email test...');
+            
+            try {
+                const welcomeEmail = await sendEmail(
+                    'hello@rekogen.app', // Send to yourself for testing
+                    'Test: Welcome to RekoGen! 🎬',
+                    `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #111827;">Test: Welcome to RekoGen! 🎬</h2>
+                        <p>Hi there,</p>
+                        <p>This is a test email to verify your RekoGen email configuration is working correctly.</p>
+                        
+                        <h3 style="color: #374151;">What's Next?</h3>
+                        <ul>
+                            <li>📱 <strong>iOS Beta:</strong> Join our TestFlight for early access</li>
+                            <li>🎯 <strong>Personalized Recommendations:</strong> Get anime picks tailored to your taste</li>
+                            <li>🌐 <strong>Realms Community:</strong> Connect with fellow anime fans</li>
+                            <li>📺 <strong>Streaming Info:</strong> Know exactly where to watch each anime</li>
+                        </ul>
+                        
+                        <p>If you received this email, your email configuration is working perfectly!</p>
+                        
+                        <p>Best regards,<br>Damien<br><em>Creator of RekoGen</em></p>
+                        
+                        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+                        <p style="font-size: 12px; color: #6b7280;">
+                            This is a test email from your RekoGen email verification.
+                        </p>
+                    </div>
+                    `
+                );
+                
+                log(`✅ Waitlist email sent successfully! Email ID: ${welcomeEmail.id}`, 'success');
+            } catch (error) {
+                log(`❌ Failed to send waitlist email: ${error.message}`, 'error');
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Test Waitlist Welcome Email';
+        }
+
+        async function testContactEmail() {
+            const btn = document.getElementById('test-contact-btn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            
+            log('Starting contact form email test...');
+            
+            try {
+                const contactEmail = await sendEmail(
+                    'hello@rekogen.app', // Send to yourself for testing
+                    'Test: New Contact Form Submission - RekoGen',
+                    `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #111827;">Test: New Contact Form Submission</h2>
+                        <p>You have received a test contact form submission:</p>
+                        
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                            <p><strong>Name:</strong> Test User</p>
+                            <p><strong>Email:</strong> test@example.com</p>
+                            <p><strong>Subject:</strong> Test Contact Form</p>
+                            <p><strong>Message:</strong> This is a test message to verify the contact form email functionality is working correctly.</p>
+                        </div>
+                        
+                        <p>If you received this email, your contact form email configuration is working perfectly!</p>
+                        
+                        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+                        <p style="font-size: 12px; color: #6b7280;">
+                            This is a test email from your RekoGen email verification.
+                        </p>
+                    </div>
+                    `
+                );
+                
+                log(`✅ Contact form email sent successfully! Email ID: ${contactEmail.id}`, 'success');
+            } catch (error) {
+                log(`❌ Failed to send contact form email: ${error.message}`, 'error');
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Test Contact Form Email';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            checkConfiguration();
+            log('Email verification page loaded. Ready to test!');
+        });
+    </script>
+</body>
+</html>

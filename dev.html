@@ -41,7 +41,7 @@
                   </ul>
                   <div class="d-flex flex-wrap gap-2 mt-3">
                     <a href="mailto:hello@rekogen.app" class="btn btn-outline-contrast btn-sm">Email</a>
-                    <a href="#" class="btn btn-outline-contrast btn-sm">Twitter</a>
+                    <a href="https://instagram.com/zamnzamien.app" target="_blank" rel="noopener" class="btn btn-outline-contrast btn-sm">Instagram</a>
                     <a href="https://github.com/Hosea1989" target="_blank" rel="noopener" class="btn btn-outline-contrast btn-sm">GitHub</a>
                   </div>
                 </div>
@@ -97,6 +97,19 @@
                     <label for="contact-email" class="form-label">Email</label>
                     <input type="email" class="form-control border-secondary" id="contact-email" placeholder="you@example.com" required />
                     <div class="invalid-feedback">Please enter a valid email.</div>
+                  </div>
+                  <div class="col-12">
+                    <label for="contact-type" class="form-label">What type of feedback is this?</label>
+                    <select class="form-select border-secondary" id="contact-type" required>
+                      <option value="">Select feedback type...</option>
+                      <option value="general">General Question</option>
+                      <option value="bug">Bug Report</option>
+                      <option value="feature">Feature Request</option>
+                      <option value="collaboration">Collaboration Idea</option>
+                      <option value="feedback">App Feedback</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a feedback type.</div>
                   </div>
                   <div class="col-12">
                     <label for="contact-message" class="form-label">Message</label>
