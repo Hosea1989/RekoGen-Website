@@ -25,69 +25,50 @@
         <section class="mb-5">
           <div class="row align-items-center g-5">
             <div class="col-lg-6">
-              <div class="screen-preview bg-light rounded-4 p-4 text-center" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
-                <div class="text-muted">
-                  <div class="h4 mb-3">📱</div>
-                  <p class="mb-0">Home Screen Screenshot<br><small>Coming Soon</small></p>
+              <div class="screen-preview bg-light rounded-4 p-4 text-center">
+                <!-- Home Screen Screenshots Carousel -->
+                <div id="homeScreenCarousel" class="carousel slide" data-bs-ride="false">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="assets/RekoGen_Home_1.png" alt="RekoGen Home Screen" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">Home Dashboard</small>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img src="assets/RekoGen_Home_2.png" alt="RekoGen Home Screen 2" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">Home Settings</small>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#homeScreenCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#homeScreenCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+                <!-- Carousel Indicators -->
+                <div class="d-flex justify-content-center mt-3">
+                  <div class="btn-group" role="group" aria-label="Home screen screens">
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#homeScreenCarousel" data-bs-slide-to="0">RekoGen Home</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#homeScreenCarousel" data-bs-slide-to="1">RekoGen Home</button>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-lg-6">
               <h2 class="h3 fw-bold mb-3">Home Screen</h2>
-              <p class="text-secondary mb-3">Your personalized dashboard where everything starts. Get quick access to your latest recommendations, trending anime in your Realms, and friends' recent activity.</p>
+              <p class="text-secondary mb-3">Your personalized anime command center with dynamic content and real-time community integration.</p>
               <ul class="text-secondary mb-0">
-                <li>Personalized recommendations based on your taste</li>
-                <li>Quick access to your favorite Realms</li>
-                <li>Friends' recent activity and recommendations</li>
-                <li>Trending anime from communities you follow</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- Discover Screen -->
-        <section class="mb-5">
-          <div class="row align-items-center g-5">
-            <div class="col-lg-6 order-lg-2">
-              <div class="screen-preview bg-light rounded-4 p-4 text-center" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
-                <div class="text-muted">
-                  <div class="h4 mb-3">🔍</div>
-                  <p class="mb-0">Discover Screen Screenshot<br><small>Coming Soon</small></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 order-lg-1">
-              <h2 class="h3 fw-bold mb-3">Discover Screen</h2>
-              <p class="text-secondary mb-3">Find your next anime with intelligent recommendations. Filter by genre, mood, and streaming platform to discover exactly what you're looking for.</p>
-              <ul class="text-secondary mb-0">
-                <li>Smart recommendations based on your preferences</li>
-                <li>Filter by genre, mood, and streaming platform</li>
-                <li>See exactly where to watch each anime</li>
-                <li>Community-curated picks from Realms</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- Watchlist Screen -->
-        <section class="mb-5">
-          <div class="row align-items-center g-5">
-            <div class="col-lg-6">
-              <div class="screen-preview bg-light rounded-4 p-4 text-center" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
-                <div class="text-muted">
-                  <div class="h4 mb-3">📋</div>
-                  <p class="mb-0">Watchlist Screen Screenshot<br><small>Coming Soon</small></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <h2 class="h3 fw-bold mb-3">Watchlist Screen</h2>
-              <p class="text-secondary mb-3">Organize your anime journey. Create custom lists, track what you're watching, and share your watchlist with friends and communities.</p>
-              <ul class="text-secondary mb-0">
-                <li>Create custom watchlists and collections</li>
-                <li>Track your watching, completed, and plan-to-watch anime</li>
-                <li>Share lists with friends and Realms</li>
-                <li>Get notifications for new episodes</li>
+                <li>🎬 Dynamic featured banner carousel with auto-scrolling content</li>
+                <li>📊 Smart content sections: Most Popular 2025, Premiering This Year, Latest Movies</li>
+                <li>🌐 Real-time community integration with trending Realms and discussions</li>
+                <li>📱 Streaming platform awareness showing exactly where to watch</li>
+                <li>🎯 Context-aware recommendations adapting to your preferences</li>
               </ul>
             </div>
           </div>
@@ -97,21 +78,200 @@
         <section class="mb-5">
           <div class="row align-items-center g-5">
             <div class="col-lg-6 order-lg-2">
-              <div class="screen-preview bg-light rounded-4 p-4 text-center" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
-                <div class="text-muted">
-                  <div class="h4 mb-3">🌐</div>
-                  <p class="mb-0">Realms Screen Screenshot<br><small>Coming Soon</small></p>
+              <div class="screen-preview bg-light rounded-4 p-4 text-center">
+                <!-- Realm Screenshots Carousel -->
+                <div id="realmCarousel" class="carousel slide" data-bs-ride="false">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="assets/RekoGen_Realms_Explore.png" alt="RekoGen Realm Explore Screen" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">Explore Realms</small>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img src="assets/RekoGen_Realm.png" alt="RekoGen Realms Screen" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">A Realm Home</small>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img src="assets/RekoGen_Realm_Comments.png" alt="RekoGen Realm Comments" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">Realm Poll Comments</small>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img src="assets/RekoGen_Realm _Poll.png" alt="RekoGen Realm Polls" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">Realm Polls</small>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#realmCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#realmCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+                <!-- Carousel Indicators -->
+                <div class="d-flex justify-content-center mt-3">
+                  <div class="btn-group" role="group" aria-label="Realm screens">
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#realmCarousel" data-bs-slide-to="0">Explore Realms</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#realmCarousel" data-bs-slide-to="1">A Realm Home</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#realmCarousel" data-bs-slide-to="2">Realm Poll Comments</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#realmCarousel" data-bs-slide-to="3">Realm Polls</button>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-lg-6 order-lg-1">
-              <h2 class="h3 fw-bold mb-3">Realms Screen</h2>
-              <p class="text-secondary mb-3">Join communities around your favorite anime, genres, and topics. Discuss, share recommendations, and connect with fellow anime fans.</p>
+              <h2 class="h3 fw-bold mb-3">Realms - Your Anime Communities</h2>
+              <p class="text-secondary mb-3">A cohesive social ecosystem with beautiful animated interface and AI-powered community discovery.</p>
               <ul class="text-secondary mb-0">
-                <li>Join topic-based communities (Realms)</li>
-                <li>Share recommendations and discussions</li>
-                <li>Discover new anime through community picks</li>
-                <li>Connect with fans who share your interests</li>
+                <li>🏠 Three-tab hub: Feed, Explore, and Activity with smooth transitions</li>
+                <li>🤖 AI-powered community discovery with trending algorithms</li>
+                <li>📈 Intelligent social feed with engagement scoring and friend attribution</li>
+                <li>🔍 Universal search across anime titles, realms, and people</li>
+                <li>⚡ Real-time activity tracking with friend connections and notifications</li>
+                <li>✨ Beautiful animated interface with gradient wave backgrounds</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Anime Detail Screens -->
+        <section class="mb-5">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+              <div class="screen-preview bg-light rounded-4 p-4 text-center">
+                <!-- Anime Detail Screenshots Carousel -->
+                <div id="animeDetailCarousel" class="carousel slide" data-bs-ride="false">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="assets/RekoGen_Anime_Detail_1.png" alt="RekoGen Anime Detail Screen" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">Anime Detail Screen</small>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img src="assets/RekoGen_Anime_Detail_2.png" alt="RekoGen Anime Detail Screen 2" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">Streaming Info</small>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img src="assets/RekoGen_Anime_Detail_3.png" alt="RekoGen Anime Detail Screen 3" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">Reviews and Comments</small>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#animeDetailCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#animeDetailCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+                <!-- Carousel Indicators -->
+                <div class="d-flex justify-content-center mt-3">
+                  <div class="btn-group" role="group" aria-label="Anime detail screens">
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#animeDetailCarousel" data-bs-slide-to="0">Anime Detail</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#animeDetailCarousel" data-bs-slide-to="1">Streaming Info</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#animeDetailCarousel" data-bs-slide-to="2">Reviews and Comments</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <h2 class="h3 fw-bold mb-3">Anime Detail Screen</h2>
+              <p class="text-secondary mb-3">An immersive anime discovery experience with smart streaming integration and comprehensive user tracking.</p>
+              <ul class="text-secondary mb-0">
+                <li>🎨 Immersive hero header with high-resolution artwork and essential metadata</li>
+                <li>📺 Smart "Where to Watch" integration with native app launching</li>
+                <li>⚡ Progressive content loading with instant basic information</li>
+                <li>⭐ Interactive user features: 5-star ratings and watchlist management</li>
+                <li>🔗 Advanced deep linking for automatic streaming app detection</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Discover Screen -->
+        <section class="mb-5">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-6 order-lg-2">
+              <div class="screen-preview bg-light rounded-4 p-4 text-center">
+                <img src="assets/RekoGen_Discover.png" alt="RekoGen Discover Screen" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+              </div>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+              <h2 class="h3 fw-bold mb-3">Discover Screen</h2>
+              <p class="text-secondary mb-3">AI-powered anime discovery with personalized hero recommendations and 17+ dynamic carousels.</p>
+              <ul class="text-secondary mb-0">
+                <li>🤖 AI-powered "Featured For You" hero with personalized rationale</li>
+                <li>🔍 Multi-scope search across anime titles, genres, and studios</li>
+                <li>📊 17+ dynamic carousels: Trending In Your Genres, Daily Genre Mix</li>
+                <li>🎯 Anchor-based recommendations: "More Like [Specific Anime]"</li>
+                <li>⚡ Real-time search with smart suggestions and filtering</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Watchlist Screen -->
+        <section class="mb-5">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+              <div class="screen-preview bg-light rounded-4 p-4 text-center">
+                <!-- Watchlist Screenshots Carousel -->
+                <div id="watchlistCarousel" class="carousel slide" data-bs-ride="false">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="assets/RekoGen_Watchlist.png" alt="RekoGen Watchlist Grid View" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">Grid View</small>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <img src="assets/RekoGen_Watchlist_List.png" alt="RekoGen Watchlist List View" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <small class="text-light bg-dark bg-opacity-75 px-2 py-1 rounded">List View</small>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#watchlistCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#watchlistCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+                <!-- Carousel Indicators -->
+                <div class="d-flex justify-content-center mt-3">
+                  <div class="btn-group" role="group" aria-label="Watchlist screens">
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#watchlistCarousel" data-bs-slide-to="0">Grid View</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-target="#watchlistCarousel" data-bs-slide-to="1">List View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <h2 class="h3 fw-bold mb-3">Watchlist Screen</h2>
+              <p class="text-secondary mb-3">A comprehensive personal anime database with flexible dual-format display and detailed analytics.</p>
+              <ul class="text-secondary mb-0">
+                <li>📱 Dual-format display: Smart grid view or detailed list view with per-tab preferences</li>
+                <li>📊 Multi-status tracking: 5 watch statuses with emoji indicators</li>
+                <li>📈 Advanced progress tracking: Episode progress, rewatch counters, and date tracking</li>
+                <li>📊 Intelligent statistics dashboard with watch analytics and completion tracking</li>
+                <li>⚡ Smart data management with Firebase integration and automatic data recovery</li>
               </ul>
             </div>
           </div>
@@ -120,22 +280,20 @@
         <!-- Profile Screen -->
         <section class="mb-5">
           <div class="row align-items-center g-5">
-            <div class="col-lg-6">
-              <div class="screen-preview bg-light rounded-4 p-4 text-center" style="min-height: 400px; display: flex; align-items: center; justify-content: center;">
-                <div class="text-muted">
-                  <div class="h4 mb-3">👤</div>
-                  <p class="mb-0">Profile Screen Screenshot<br><small>Coming Soon</small></p>
-                </div>
+            <div class="col-lg-6 order-lg-2">
+              <div class="screen-preview bg-light rounded-4 p-4 text-center">
+                <img src="assets/RekoGen_Profile.png" alt="RekoGen Profile Screen" class="img-fluid rounded-3 shadow-sm" style="max-height: 500px; width: auto;">
               </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 order-lg-1">
               <h2 class="h3 fw-bold mb-3">Profile Screen</h2>
-              <p class="text-secondary mb-3">Your anime identity. Customize your profile, manage your preferences, and see your anime journey statistics and achievements.</p>
+              <p class="text-secondary mb-3">A complete social and personal hub with gamified experience system and advanced social features.</p>
               <ul class="text-secondary mb-0">
-                <li>Customize your anime profile and preferences</li>
-                <li>View your watching statistics and achievements</li>
-                <li>Manage your privacy and sharing settings</li>
-                <li>Connect with friends and see their profiles</li>
+                <li>🏠 Four-tab profile system: About, Animes, Friends, and Forums</li>
+                <li>⭐ Advanced leveling system: 50+ levels with themed titles</li>
+                <li>📱 Smart anime library with dual-view layouts and intelligent pagination</li>
+                <li>👥 Rich social integration with complete friend system and real-time notifications</li>
+                <li>⚡ Performance optimized with 30-minute intelligent caching</li>
               </ul>
             </div>
           </div>
@@ -145,7 +303,7 @@
         <section class="mt-5 pt-5 border-top border-secondary-subtle">
           <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-              <h2 class="h3 fw-bold mb-3">Help Us Improve</h2>
+              <h2 class="h3 fw-bold mb-3">Help Me Improve</h2>
               <p class="text-secondary mb-4">Have feedback about any of these screens or suggestions for new features? We'd love to hear from you!</p>
               <div class="d-flex flex-wrap gap-3 justify-content-center">
                 <a href="dev.html#contact-form" class="btn btn-primary">Send Feedback</a>
