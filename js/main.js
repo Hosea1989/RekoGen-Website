@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
   attachToggle(toggleBtn);
   attachToggle(toggleFab);
 
-  // Resend configuration - Replace with your actual API key
-  const RESEND_API_KEY = 're_HYZofdps_H7vYj61PhrcDuvrj5yJA8xfL';
-  const FROM_EMAIL = 'hello@rekogen.app'; // Your verified domain email
+  // Email configuration from config file
+  const RESEND_API_KEY = window.CONFIG?.RESEND_API_KEY || 'YOUR_API_KEY_HERE';
+  const FROM_EMAIL = window.CONFIG?.FROM_EMAIL || 'onboarding@resend.dev';
 
   // Email sending function using Resend
   async function sendEmail(to, subject, htmlContent, textContent = '') {
@@ -91,12 +91,40 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     );
     // Mark active nav link
-    const current = location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.navbar .nav-link').forEach((a) => {
-      if (a.getAttribute('href') === current) {
-        a.classList.add('active');
+    markActiveNavLink();
+  }
+
+  // Function to mark the active navigation link
+  function markActiveNavLink() {
+    const currentPath = window.location.pathname;
+    const currentPage = currentPath.split('/').pop() || 'index.html';
+    
+    // Get all nav links
+    const navLinks = document.querySelectorAll('.navbar .nav-link');
+    
+    navLinks.forEach((link) => {
+      const href = link.getAttribute('href');
+      
+      // Remove any existing active class
+      link.classList.remove('active');
+      
+      // Check if this link matches the current page
+      if (href === currentPage) {
+        link.classList.add('active');
+      }
+      
+      // Special case for index.html - also match root path
+      if (currentPage === 'index.html' && href === 'index.html') {
+        link.classList.add('active');
+      }
+      
+      // Handle root path when no filename is present
+      if (currentPath === '/' && href === 'index.html') {
+        link.classList.add('active');
       }
     });
+    
+    console.log('Current page:', currentPage, 'Current path:', currentPath);
   }
 
   // Random brand text function (RekoGen or Japanese spelling)
@@ -105,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (brandTextEl) {
       const brandOptions = [
         'Reko<span class="brand-accent">Gen</span>',
-        'レコ<span class="brand-accent">ジェン</span>'
+        'レコ<span class="brand-accent">ジェン</span><span class="brand-english">RekoGen</span>'
       ];
       const randomBrand = brandOptions[Math.floor(Math.random() * brandOptions.length)];
       brandTextEl.innerHTML = randomBrand;

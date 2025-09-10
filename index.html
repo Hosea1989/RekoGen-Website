@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RekoGen — Find Your Next Anime</title>
+    <title>RekoGen — Find your next anime fast</title>
 
-    <meta name="description" content="RekoGen is an anime recommendation app that helps you discover what to watch next, join Realms (our take on communities), add friends, and share anime together." />
+    <meta name="description" content="Smart picks, real communities, instant streaming info. Watchlists and Realms synced across devices." />
     <meta name="theme-color" content="#111827" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="RekoGen — Find Your Next Anime" />
-    <meta property="og:description" content="Discover anime tailored to you. Join Realms, connect with friends, and share recommendations." />
+    <meta property="og:title" content="RekoGen — Find your next anime fast" />
+    <meta property="og:description" content="Smart picks, real communities, instant streaming info. Watchlists and Realms synced across devices." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rekogen.app" />
     <meta property="og:image" content="/assets/og-image.png" />
@@ -23,6 +23,40 @@
 
     <!-- App CSS -->
     <link rel="stylesheet" href="css/styles.css" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "RekoGen",
+      "description": "Smart picks, real communities, instant streaming info. Watchlists and Realms synced across devices.",
+      "url": "https://rekogen.app",
+      "applicationCategory": "Entertainment",
+      "operatingSystem": "iOS, Android",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "RekoGen"
+      },
+      "screenshot": [
+        "https://rekogen.app/assets/RekoGen_Home_1.png",
+        "https://rekogen.app/assets/RekoGen_Discover.png",
+        "https://rekogen.app/assets/RekoGen_Realms_Explore.png"
+      ],
+      "featureList": [
+        "AI-powered anime recommendations",
+        "Community Realms for discussion",
+        "Streaming platform integration",
+        "Watchlist and progress tracking",
+        "Cross-device synchronization"
+      ]
+    }
+    </script>
   </head>
   <body class="footer-compact">
     <!-- Navbar -->
@@ -83,6 +117,82 @@
       <div class="gradient-blob position-absolute top-0 start-50 translate-middle-x"></div>
     </header>
 
+    <!-- Features Section -->
+    <section class="py-5 bg-light-subtle" aria-labelledby="features-heading">
+      <div class="container">
+        <div class="row justify-content-center mb-5">
+          <div class="col-lg-8 text-center">
+            <h2 id="features-heading" class="display-5 fw-bold mb-4">Why fans use RekoGen</h2>
+            <p class="lead text-secondary fs-5 mb-0">Everything you need to discover, track, and share your favorite anime.</p>
+          </div>
+        </div>
+        <div class="row g-4">
+          <div class="col-12 col-md-6 col-lg">
+            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-smarter-picks">
+              <div class="feature-icon-home mb-4">🎯</div>
+              <h3 class="h4 fw-bold mb-3">Smarter Picks</h3>
+              <p class="text-secondary mb-0 fs-6">AI learns your taste to surface anime you'll actually enjoy.</p>
+            </article>
+          </div>
+          <div class="col-12 col-md-6 col-lg">
+            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-realms-community">
+              <div class="feature-icon-home mb-4">🏠</div>
+              <h3 class="h4 fw-bold mb-3">Realms Community</h3>
+              <p class="text-secondary mb-0 fs-6">Join vibrant spaces to discuss, share, and connect around favorites.</p>
+            </article>
+          </div>
+          <div class="col-12 col-md-6 col-lg">
+            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-where-to-watch">
+              <div class="feature-icon-home mb-4">📺</div>
+              <h3 class="h4 fw-bold mb-3">Where to Watch</h3>
+              <p class="text-secondary mb-0 fs-6">See streaming availability instantly across platforms—no more searching.</p>
+            </article>
+          </div>
+          <div class="col-12 col-md-6 col-lg">
+            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-watchlist-progress">
+              <div class="feature-icon-home mb-4">📱</div>
+              <h3 class="h4 fw-bold mb-3">Watchlist & Progress</h3>
+              <p class="text-secondary mb-0 fs-6">Track what you're watching and manage your queue effortlessly.</p>
+            </article>
+          </div>
+          <div class="col-12 col-md-6 col-lg">
+            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-built-for-fans">
+              <div class="feature-icon-home mb-4">🚀</div>
+              <h3 class="h4 fw-bold mb-3">Built for Fans</h3>
+              <p class="text-secondary mb-0 fs-6">Fast, clean, cross-device experience that syncs preferences and communities.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How RekoGen Works Section -->
+    <section class="py-4">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center">
+            <h3 class="h4 fw-bold mb-4">How RekoGen works</h3>
+            <div class="how-it-works-content">
+              <p class="text-secondary fs-5 mb-3">
+                Our AI learns your unique taste by analyzing what you watch, rate, and enjoy. It then surfaces anime 
+                that matches your preferences, helping you discover shows you'll actually love instead of endless scrolling.
+              </p>
+              <p class="text-secondary fs-5 mb-4">
+                Join Realms to connect with fellow fans who share your interests. Track your progress, get instant 
+                streaming info, and sync everything across devices. It's like having a friend who just gets your anime taste.
+              </p>
+              <a href="features.html#mission" class="text-decoration-none">
+                <span class="text-primary fw-semibold">Learn more on About</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="ms-1 text-primary">
+                  <path d="M8 1L15 8L8 15M15 8H1"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Streaming sites carousel -->
     <section class="streaming-section py-4 border-top border-secondary-subtle">
       <div class="container overflow-hidden">
@@ -93,8 +203,8 @@
             </a>
           </div>
           <div class="streaming-site s2">
-            <a href="https://www.funimation.com" target="_blank" rel="noopener" class="streaming-link">
-              <img src="assets/funimation.webp" alt="Funimation" class="streaming-logo">
+            <a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/funimation.webp" alt="Funimation (now Crunchyroll)" class="streaming-logo">
             </a>
           </div>
           <div class="streaming-site s3">
@@ -123,8 +233,8 @@
             </a>
           </div>
           <div class="streaming-site s8">
-            <a href="https://vrv.co" target="_blank" rel="noopener" class="streaming-link">
-              <img src="assets/vrv.webp" alt="VRV" class="streaming-logo">
+            <a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/vrv.webp" alt="VRV (now Crunchyroll)" class="streaming-logo">
             </a>
           </div>
           <!-- duplicate to create seamless loop -->
@@ -134,8 +244,8 @@
             </a>
           </div>
           <div class="streaming-site s2">
-            <a href="https://www.funimation.com" target="_blank" rel="noopener" class="streaming-link">
-              <img src="assets/funimation.webp" alt="Funimation" class="streaming-logo">
+            <a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/funimation.webp" alt="Funimation (now Crunchyroll)" class="streaming-logo">
             </a>
           </div>
           <div class="streaming-site s3">
@@ -164,8 +274,8 @@
             </a>
           </div>
           <div class="streaming-site s8">
-            <a href="https://vrv.co" target="_blank" rel="noopener" class="streaming-link">
-              <img src="assets/vrv.webp" alt="VRV" class="streaming-logo">
+            <a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/vrv.webp" alt="VRV (now Crunchyroll)" class="streaming-logo">
             </a>
           </div>
           <!-- third set for perfect seamless loop -->
@@ -175,8 +285,8 @@
             </a>
           </div>
           <div class="streaming-site s2">
-            <a href="https://www.funimation.com" target="_blank" rel="noopener" class="streaming-link">
-              <img src="assets/funimation.webp" alt="Funimation" class="streaming-logo">
+            <a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/funimation.webp" alt="Funimation (now Crunchyroll)" class="streaming-logo">
             </a>
           </div>
           <div class="streaming-site s3">
@@ -205,8 +315,8 @@
             </a>
           </div>
           <div class="streaming-site s8">
-            <a href="https://vrv.co" target="_blank" rel="noopener" class="streaming-link">
-              <img src="assets/vrv.webp" alt="VRV" class="streaming-logo">
+            <a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="streaming-link">
+              <img src="assets/vrv.webp" alt="VRV (now Crunchyroll)" class="streaming-logo">
             </a>
           </div>
         </div>
@@ -225,6 +335,7 @@
     <button id="theme-toggle-fab" class="btn btn-outline-contrast theme-toggle-fab" type="button" aria-label="Toggle theme">🌙</button>
     <div id="scroll-progress"></div>
     <!-- App JS -->
+    <script src="js/config.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html> 
