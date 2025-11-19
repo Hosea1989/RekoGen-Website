@@ -1,16 +1,26 @@
 # RekoGen Setup Instructions
 
-## 🔐 Security Setup
+## 🚀 Quick Start
 
-### 1. API Key Security
-Your API keys are now stored securely and won't be committed to git.
-
-### 2. Configuration Setup
+### 1. Configuration Setup
 1. **Copy the template**: `cp js/config.template.js js/config.js`
 2. **Edit config.js**: Replace placeholder values with your actual API keys
 3. **Never commit config.js**: It's already in .gitignore
 
-### 3. Required API Keys
+### 2. Required Services
+
+#### Firebase (Database)
+The website now uses Firebase Firestore instead of Supabase for better reliability.
+
+1. Follow the complete setup guide: [FIREBASE_SETUP.md](FIREBASE_SETUP.md)
+2. Get your Firebase configuration from the Firebase Console
+3. Add the Firebase credentials to `js/config.js`
+
+**Why Firebase?**
+- No more project pausing issues
+- More reliable for beta signups
+- Better free tier for small projects
+- Same Firebase used in the RekoGen app
 
 #### Resend Email Service
 1. Go to [resend.com/dashboard](https://resend.com/dashboard)

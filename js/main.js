@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Waitlist form with Supabase
+  // Waitlist form with Firebase
   const form = document.getElementById('waitlist-form');
   const emailInput = document.getElementById('email');
   const messageEl = document.getElementById('waitlist-message');
@@ -170,31 +170,31 @@ document.addEventListener('DOMContentLoaded', () => {
         setMessage('Please enter a valid email.', 'danger');
         return;
       }
-      // Removed consent validation - now optional
 
       emailInput.classList.remove('is-invalid');
       setMessage('Submitting...', 'secondary');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting…'; }
 
       try {
-        // Debug: Check if Supabase is available
-        console.log('Supabase URL:', window.SUPABASE_URL);
-        console.log('Supabase Key:', window.SUPABASE_ANON_KEY ? 'Present' : 'Missing');
-        console.log('Supabase object:', typeof supabase);
-
-        if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
-          throw new Error('Supabase credentials not configured');
+        // Check if Firebase is available
+        if (typeof firebase === 'undefined') {
+          throw new Error('Firebase SDK not loaded');
         }
 
-        if (typeof supabase === 'undefined') {
-          throw new Error('Supabase client not loaded');
+        if (typeof window.FirebaseHelper === 'undefined') {
+          throw new Error('Firebase helper not loaded');
         }
 
-        // Initialize Supabase client
-        const { createClient } = supabase;
-        const supabaseClient = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
-
-        console.log('Supabase client created, attempting to insert...');
+        console.log('Checking for duplicate email...');
+        
+        // Check for duplicate email
+        const isDuplicate = await window.FirebaseHelper.checkDuplicateEmail('waitlist', email);
+        
+        if (isDuplicate) {
+          setMessage('This email is already on the waitlist!', 'warning');
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Notify Me'; }
+          return;
+        }
 
         const payload = {
           name,
@@ -208,26 +208,14 @@ document.addEventListener('DOMContentLoaded', () => {
           user_agent: navigator.userAgent
         };
 
-        console.log('Payload:', payload);
+        console.log('Adding to waitlist:', payload);
 
-        const { data, error } = await supabaseClient
-          .from('waitlist')
-          .insert([payload])
-          .select();
+        const result = await window.FirebaseHelper.addDocument('waitlist', payload);
 
-        console.log('Supabase response:', { data, error });
-
-        if (error) {
-          console.error('Supabase error details:', error);
-          if (error.code === '23505') { // Unique constraint violation
-            setMessage('This email is already on the waitlist!', 'warning');
-          } else if (error.code === '42P01') { // Table doesn't exist
-            setMessage('Database not set up yet. Please contact support.', 'danger');
-          } else {
-            setMessage(`Error: ${error.message}`, 'danger');
-          }
+        if (!result.success) {
+          setMessage(`Error: ${result.error}`, 'danger');
         } else {
-          console.log('Success! Data inserted:', data);
+          console.log('Success! Data inserted:', result.data);
           
           // Send welcome email
           const welcomeEmail = await sendEmail(
@@ -278,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Contact form (Meet the Dev) with Supabase
+  // Contact form (Meet the Dev) with Firebase
   const contactForm = document.getElementById('contact-form');
   const contactStatus = document.getElementById('contact-status');
   if (contactForm) {
@@ -306,57 +294,33 @@ document.addEventListener('DOMContentLoaded', () => {
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
 
       try {
-        // Debug: Check if Supabase is available
-        console.log('Contact form - Supabase URL:', window.SUPABASE_URL);
-        console.log('Contact form - Supabase Key:', window.SUPABASE_ANON_KEY ? 'Present' : 'Missing');
-        console.log('Contact form - Supabase object:', typeof supabase);
-
-        if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
-          throw new Error('Supabase credentials not configured');
+        // Check if Firebase is available
+        if (typeof firebase === 'undefined') {
+          throw new Error('Firebase SDK not loaded');
         }
 
-        if (typeof supabase === 'undefined') {
-          throw new Error('Supabase client not loaded');
+        if (typeof window.FirebaseHelper === 'undefined') {
+          throw new Error('Firebase helper not loaded');
         }
-
-        // Initialize Supabase client
-        const { createClient } = supabase;
-        const supabaseClient = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
-
-        console.log('Contact form - Supabase client created, attempting to insert...');
 
         const payload = {
           name,
           email,
-          message,
+          message: `[${feedbackType.toUpperCase()}] ${message}`,
+          feedback_type: feedbackType,
           category: 'contact',
           page: location.href,
           user_agent: navigator.userAgent
         };
-        
-        // Add feedback_type to message if available
-        if (feedbackType) {
-          payload.message = `[${feedbackType.toUpperCase()}] ${message}`;
-        }
 
-        console.log('Contact form - Payload:', payload);
+        console.log('Contact form - Adding to feedback:', payload);
 
-        const { data, error } = await supabaseClient
-          .from('feedback')
-          .insert([payload])
-          .select();
+        const result = await window.FirebaseHelper.addDocument('feedback', payload);
 
-        console.log('Contact form - Supabase response:', { data, error });
-
-        if (error) {
-          console.error('Contact form - Supabase error details:', error);
-          if (error.code === '42P01') { // Table doesn't exist
-            if (contactStatus) { contactStatus.className = 'small mt-3 text-danger'; contactStatus.textContent = 'Database not set up yet. Please contact support.'; }
-          } else {
-            if (contactStatus) { contactStatus.className = 'small mt-3 text-danger'; contactStatus.textContent = `Error: ${error.message}`; }
-          }
+        if (!result.success) {
+          if (contactStatus) { contactStatus.className = 'small mt-3 text-danger'; contactStatus.textContent = `Error: ${result.error}`; }
         } else {
-          console.log('Contact form - Success! Data inserted:', data);
+          console.log('Contact form - Success! Data inserted:', result.data);
           
           // Send notification email to you
           const notificationEmail = await sendEmail(
