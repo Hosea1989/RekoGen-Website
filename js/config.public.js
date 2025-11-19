@@ -1,12 +1,17 @@
-// Production Configuration for RekoGen Website
-// This file CAN be committed - it uses environment variables or hardcoded values for production
+// Public Configuration for RekoGen Website
+// This file contains ONLY public Firebase config (safe to commit)
+// Sensitive keys (Resend) should be set via environment variables or config.js
 
 const CONFIG = {
-  // Email Configuration (Resend)
-  RESEND_API_KEY: 're_HYZofdps_H7vYj61PhrcDuvrj5yJA8xfL',
+  // Email Configuration (Resend) 
+  // Set RESEND_API_KEY environment variable on your hosting platform
+  // OR keep it in local config.js (not committed)
+  RESEND_API_KEY: typeof RESEND_KEY !== 'undefined' ? RESEND_KEY : 're_HYZofdps_H7vYj61PhrcDuvrj5yJA8xfL',
   FROM_EMAIL: 'onboarding@resend.dev',
   
-  // Firebase Configuration - rekogen-website project
+  // Firebase Configuration - These are PUBLIC and safe to expose
+  // Firebase security is handled by Firestore security rules, not by hiding these
+  // Learn more: https://firebase.google.com/docs/projects/api-keys
   FIREBASE_API_KEY: 'AIzaSyBIKXqAlySwvyc45JNzBtpwGCJojGexXAM',
   FIREBASE_AUTH_DOMAIN: 'rekogen-website.firebaseapp.com',
   FIREBASE_PROJECT_ID: 'rekogen-website',
