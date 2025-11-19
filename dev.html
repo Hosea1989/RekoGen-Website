@@ -137,7 +137,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <button id="theme-toggle-fab" class="btn btn-outline-contrast theme-toggle-fab" type="button" aria-label="Toggle theme">🌙</button>
-    <script src="js/config.js"></script>
+    <!-- Try to load config.js (local), fallback to config.production.js (committed) -->
+    <script src="js/config.js" onerror="this.onerror=null; var script = document.createElement('script'); script.src='js/config.production.js'; document.head.appendChild(script);"></script>
     <script src="js/firebase-config.js"></script>
     <script src="js/main.js"></script>
   </body>
