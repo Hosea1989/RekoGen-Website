@@ -12,19 +12,25 @@
   <body>
     <div data-include="partials/navbar.html"></div>
 
-    <header class="py-5 bg-gradient border-bottom border-secondary-subtle">
-      <div class="container">
+    <header class="py-5 bg-gradient border-bottom border-secondary-subtle header-flare">
+      <!-- Floating orbs -->
+      <div class="flare-orb flare-orb-1"></div>
+      <div class="flare-orb flare-orb-2"></div>
+      <div class="flare-orb flare-orb-4"></div>
+      <div class="container position-relative">
         <h1 class="fw-bold">About Reko<span class="brand-accent">Gen</span></h1>
-        <p class="text-secondary mb-0">Our mission to make anime discovery personal, social, and effortless.</p>
+        <p class="text-secondary mb-0">Solving the two hardest problems in anime: what to watch and where to stream it.</p>
       </div>
     </header>
 
     <main class="py-5">
       <div class="container">
         <!-- Mission Section -->
-        <section class="mb-5" id="mission">
+        <section class="mb-5 position-relative" id="mission">
+          <div class="section-glow section-glow-left"></div>
           <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
+              <div class="intro-sparkle float-gentle">✦</div>
               <h1 class="display-4 fw-bold mb-5">Why we built RekoGen</h1>
               <div class="mission-text">
                 <p class="lead text-secondary fs-5 mb-4">
@@ -46,31 +52,35 @@
           </div>
         </section>
 
+        <!-- Divider -->
+        <div class="section-divider"></div>
+
         <!-- Our Vision Section -->
-        <section class="mb-5">
+        <section class="mb-5 position-relative">
+          <div class="section-glow section-glow-right"></div>
           <div class="row justify-content-center">
             <div class="col-lg-8">
-              <h2 class="display-5 fw-bold mb-5 text-center">Our Vision</h2>
+              <h2 class="display-5 fw-bold mb-5 text-center">What We're Building</h2>
               <div class="row g-4">
                 <div class="col-md-4">
                   <div class="vision-card p-4 h-100 text-center">
-                    <div class="vision-icon mb-4">⚡</div>
-                    <h3 class="h4 fw-bold mb-3">Help fans decide faster without FOMO.</h3>
-                    <p class="text-secondary mb-0 fs-6">We want every recommendation to feel like it was hand-picked just for you, based on what you actually love.</p>
+                    <div class="vision-icon mb-4">📺</div>
+                    <h3 class="h4 fw-bold mb-3">End the "Where Do I Watch This?" Problem</h3>
+                    <p class="text-secondary mb-0 fs-6">Anime is scattered across Crunchyroll, Netflix, Hulu, Prime, and more. RekoGen shows you exactly which platform has each show—no more guessing or Googling.</p>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="vision-card p-4 h-100 text-center">
-                    <div class="vision-icon mb-4">🤝</div>
-                    <h3 class="h4 fw-bold mb-3">Grow thoughtful communities around every title.</h3>
-                    <p class="text-secondary mb-0 fs-6">Anime is better when shared. We're building spaces where fans can connect, discuss, and discover together.</p>
+                    <div class="vision-icon mb-4">💎</div>
+                    <h3 class="h4 fw-bold mb-3">Surface Forgotten Gems, Not Just Trending</h3>
+                    <p class="text-secondary mb-0 fs-6">Most apps push whatever's popular. We help you discover underrated anime that slipped through the cracks—shows that deserve more love than they got.</p>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="vision-card p-4 h-100 text-center">
-                    <div class="vision-icon mb-4">🎯</div>
-                    <h3 class="h4 fw-bold mb-3">Make discovery and streaming truly seamless.</h3>
-                    <p class="text-secondary mb-0 fs-6">From finding what to watch to tracking your progress, everything should feel natural and intuitive.</p>
+                    <div class="vision-icon mb-4">🏠</div>
+                    <h3 class="h4 fw-bold mb-3">Connect Fans Who Actually Care</h3>
+                    <p class="text-secondary mb-0 fs-6">Realms are community spaces where you can discuss anime with people who remember it. Find your people, share theories, and discover what others are watching.</p>
                   </div>
                 </div>
               </div>
@@ -114,9 +124,10 @@
         </section>
 
         <!-- Call to Action -->
-        <section class="mt-5 pt-5 border-top border-secondary-subtle">
+        <section class="mt-5 pt-5 border-top border-secondary-subtle cta-glow">
           <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
+              <div class="intro-sparkle float-gentle mb-2">✦</div>
               <h3 class="display-6 fw-bold mb-4">Join Us on This Journey</h3>
               <p class="text-secondary fs-5 mb-5">Ready to discover anime in a whole new way? Join our growing community of anime enthusiasts.</p>
               <div class="d-flex flex-wrap gap-3 justify-content-center">

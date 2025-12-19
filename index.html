@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RekoGen — Find your next anime fast</title>
+    <title>RekoGen — Find What to Watch & Where to Stream It</title>
 
-    <meta name="description" content="Smart picks, real communities, instant streaming info. Watchlists and Realms synced across devices." />
+    <meta name="description" content="Anime is scattered across 10+ streaming platforms. RekoGen recommends shows based on your taste and tells you exactly where to watch them. Discover forgotten gems, join fan communities." />
     <meta name="theme-color" content="#111827" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="RekoGen — Find your next anime fast" />
-    <meta property="og:description" content="Smart picks, real communities, instant streaming info. Watchlists and Realms synced across devices." />
+    <meta property="og:title" content="RekoGen — Find What to Watch & Where to Stream It" />
+    <meta property="og:description" content="Anime is scattered across 10+ streaming platforms. RekoGen recommends shows and tells you exactly where to watch them." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rekogen.app" />
     <meta property="og:image" content="/assets/og-image.png" />
@@ -30,7 +30,7 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "RekoGen",
-      "description": "Smart picks, real communities, instant streaming info. Watchlists and Realms synced across devices.",
+      "description": "Anime discovery platform that recommends shows based on your taste and tells you exactly where to stream them across Crunchyroll, Netflix, Hulu, and more.",
       "url": "https://rekogen.app",
       "applicationCategory": "Entertainment",
       "operatingSystem": "iOS, Android",
@@ -63,7 +63,11 @@
     <div data-include="partials/navbar.html"></div>
 
     <!-- Hero with background video scaffold -->
-    <header class="py-5 py-lg-5 bg-gradient position-relative overflow-hidden">
+    <header class="py-5 py-lg-5 bg-gradient position-relative overflow-hidden header-flare">
+      <!-- Floating orbs -->
+      <div class="flare-orb flare-orb-1"></div>
+      <div class="flare-orb flare-orb-2"></div>
+      <div class="flare-orb flare-orb-3"></div>
       <div class="hero-video position-absolute top-0 start-0 w-100 h-100">
         <video class="w-100 h-100" autoplay muted loop playsinline poster="" style="object-fit: cover;">
           <source src="assets/hero.mp4" type="video/mp4" />
@@ -72,11 +76,11 @@
       <div class="container position-relative">
         <div class="row align-items-center g-5 py-5 py-lg-5">
           <div class="col-12 col-lg-6">
-            <h1 class="display-4 fw-bold mb-3">Find Your Next Anime</h1>
+            <h1 class="display-4 fw-bold mb-3">Stop Scrolling. Start Watching.</h1>
             <a href="rekogen-2026.html" class="evolution-badge d-inline-block mb-3 text-decoration-none" aria-label="Learn about RekoGen's evolution in 2026">
               <span class="badge bg-primary-subtle text-primary px-4 py-3 fs-6 fw-semibold evolution-badge-text">RekoGen is evolving in 2026</span>
             </a>
-            <p class="lead text-secondary">RekoGen recommends anime tailored to your taste. Join Realms to discuss, add friends, and share anime you love.</p>
+            <p class="lead text-secondary">Anime is scattered across Crunchyroll, Netflix, Hulu, and 10 other platforms. RekoGen finds what to watch <strong>and</strong> tells you exactly where to stream it—so you spend less time searching and more time watching.</p>
             <div class="d-flex flex-wrap gap-3 mt-4">
               <a href="waitlist.html" class="btn btn-primary btn-lg px-4">Join the Waitlist</a>
               <a href="features.html" class="btn btn-outline-contrast btn-lg px-4">Learn More</a>
@@ -121,71 +125,75 @@
     </header>
 
     <!-- Features Section -->
-    <section class="py-5 bg-light-subtle" aria-labelledby="features-heading">
+    <section class="py-5 bg-light-subtle position-relative" aria-labelledby="features-heading">
+      <div class="section-glow section-glow-left"></div>
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-lg-8 text-center">
-            <h2 id="features-heading" class="display-5 fw-bold mb-4">Why fans use RekoGen</h2>
-            <p class="lead text-secondary fs-5 mb-0">Everything you need to discover, track, and share your favorite anime.</p>
+            <div class="intro-sparkle float-gentle">✦</div>
+            <h2 id="features-heading" class="display-5 fw-bold mb-4">What RekoGen Actually Does</h2>
+            <p class="lead text-secondary fs-5 mb-0">Not another anime database. A discovery platform that solves real problems.</p>
           </div>
         </div>
         <div class="row g-4">
           <div class="col-12 col-md-6 col-lg">
-            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-smarter-picks">
-              <div class="feature-icon-home mb-4">🎯</div>
-              <h3 class="h4 fw-bold mb-3">Smarter Picks</h3>
-              <p class="text-secondary mb-0 fs-6">AI learns your taste to surface anime you'll actually enjoy.</p>
+            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-streaming-info">
+              <div class="feature-icon-home mb-4">📺</div>
+              <h3 class="h4 fw-bold mb-3">Know Where to Stream</h3>
+              <p class="text-secondary mb-0 fs-6">Every recommendation shows which platforms have it—Crunchyroll, Netflix, Hulu, Prime, and more. No more Googling.</p>
+            </article>
+          </div>
+          <div class="col-12 col-md-6 col-lg">
+            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-hidden-gems">
+              <div class="feature-icon-home mb-4">💎</div>
+              <h3 class="h4 fw-bold mb-3">Discover Forgotten Gems</h3>
+              <p class="text-secondary mb-0 fs-6">Go beyond trending. Find underrated anime that slipped through the cracks—shows that deserve more love than they got.</p>
             </article>
           </div>
           <div class="col-12 col-md-6 col-lg">
             <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-realms-community">
               <div class="feature-icon-home mb-4">🏠</div>
-              <h3 class="h4 fw-bold mb-3">Realms Community</h3>
-              <p class="text-secondary mb-0 fs-6">Join vibrant spaces to discuss, share, and connect around favorites.</p>
+              <h3 class="h4 fw-bold mb-3">Realms: Fan Communities</h3>
+              <p class="text-secondary mb-0 fs-6">Join or create spaces for specific anime. Discuss episodes, share theories, and connect with fans who actually remember that show.</p>
             </article>
           </div>
           <div class="col-12 col-md-6 col-lg">
-            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-where-to-watch">
-              <div class="feature-icon-home mb-4">📺</div>
-              <h3 class="h4 fw-bold mb-3">Where to Watch</h3>
-              <p class="text-secondary mb-0 fs-6">See streaming availability instantly across platforms—no more searching.</p>
+            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-personalized-recs">
+              <div class="feature-icon-home mb-4">🎯</div>
+              <h3 class="h4 fw-bold mb-3">Recommendations That Fit</h3>
+              <p class="text-secondary mb-0 fs-6">Tell us your mood, favorite genres, and what you've loved. Get picks based on tone and pacing—not just "people also watched."</p>
             </article>
           </div>
           <div class="col-12 col-md-6 col-lg">
             <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-watchlist-progress">
-              <div class="feature-icon-home mb-4">📱</div>
-              <h3 class="h4 fw-bold mb-3">Watchlist & Progress</h3>
-              <p class="text-secondary mb-0 fs-6">Track what you're watching and manage your queue effortlessly.</p>
-            </article>
-          </div>
-          <div class="col-12 col-md-6 col-lg">
-            <article class="feature-card-home p-4 h-100 text-center" role="article" id="feature-built-for-fans">
-              <div class="feature-icon-home mb-4">🚀</div>
-              <h3 class="h4 fw-bold mb-3">Built for Fans</h3>
-              <p class="text-secondary mb-0 fs-6">Fast, clean, cross-device experience that syncs preferences and communities.</p>
+              <div class="feature-icon-home mb-4">📋</div>
+              <h3 class="h4 fw-bold mb-3">Track Your Journey</h3>
+              <p class="text-secondary mb-0 fs-6">Unlimited watchlists. Mark what you're watching, what you've finished, what you plan to start. Synced across devices.</p>
             </article>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Divider -->
+    <div class="container"><div class="section-divider"></div></div>
+
     <!-- How RekoGen Works Section -->
-    <section class="py-4">
+    <section class="py-4 position-relative">
+      <div class="section-glow section-glow-right"></div>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-8 text-center">
-            <h3 class="h4 fw-bold mb-4">How RekoGen works</h3>
+            <h3 class="h4 fw-bold mb-4">The Problem We're Solving</h3>
             <div class="how-it-works-content">
               <p class="text-secondary fs-5 mb-3">
-                Our AI learns your unique taste by analyzing what you watch, rate, and enjoy. It then surfaces anime 
-                that matches your preferences, helping you discover shows you'll actually love instead of endless scrolling.
+                <strong>Anime is fragmented.</strong> Your next favorite show could be on Crunchyroll, Netflix, Hulu, Prime Video, HIDIVE, or one of a dozen other platforms. Finding what to watch is hard enough—figuring out where to actually stream it is exhausting.
               </p>
               <p class="text-secondary fs-5 mb-4">
-                Join Realms to connect with fellow fans who share your interests. Track your progress, get instant 
-                streaming info, and sync everything across devices. It's like having a friend who just gets your anime taste.
+                <strong>RekoGen is the middleman.</strong> We're not a streaming app—we're a discovery platform. Tell us what you like, and we'll recommend anime that fits your taste <em>and</em> tell you exactly where to watch it. Then connect with other fans in Realms to discuss what you've found.
               </p>
               <a href="features.html#mission" class="text-decoration-none">
-                <span class="text-primary fw-semibold">Learn more on About</span>
+                <span class="text-primary fw-semibold">Read our full story</span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="ms-1 text-primary">
                   <path d="M8 1L15 8L8 15M15 8H1"/>
                 </svg>
