@@ -517,7 +517,8 @@
       // ============================================
       
       // Configuration
-      const ADMIN_PASSWORD = window.PRIVATE_KEYS?.ADMIN_PASSWORD || 'admin123'; // Change this!
+      // Password is client-side only (security through obscurity via hidden URL)
+      const ADMIN_PASSWORD = window.PRIVATE_KEYS?.ADMIN_PASSWORD || 'RekoGen2026!';
       const RESEND_API_KEY = window.PRIVATE_KEYS?.RESEND_API_KEY || window.CONFIG?.RESEND_API_KEY;
       const FROM_EMAIL = window.PRIVATE_KEYS?.FROM_EMAIL || window.CONFIG?.FROM_EMAIL || 'onboarding@resend.dev';
       const FROM_NAME = window.PRIVATE_KEYS?.FROM_NAME || 'Damien from RekoGen';
