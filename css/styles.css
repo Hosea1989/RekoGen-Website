@@ -917,4 +917,86 @@ details > *:not(summary) {
   .collapse {
     transition: none;
   }
+}
+
+/* Discovery App Disclaimer Alert */
+.alert-info-custom {
+  background: linear-gradient(135deg, rgba(109, 94, 249, 0.08) 0%, rgba(109, 94, 249, 0.12) 100%);
+  border-left: 4px solid var(--rk-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+[data-theme="dark"] .alert-info-custom {
+  background: linear-gradient(135deg, rgba(109, 94, 249, 0.12) 0%, rgba(109, 94, 249, 0.18) 100%);
+  border-left-color: var(--rk-primary);
+}
+
+.alert-info-custom h4 {
+  color: var(--rk-fg);
+  font-size: 1.1rem;
+}
+
+.alert-info-custom p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* News Cards */
+.news-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .news-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* News Card Date Colors */
+.news-card .text-muted {
+  color: var(--rk-muted) !important;
+}
+
+[data-theme="dark"] .news-card .text-muted {
+  color: var(--rk-muted) !important;
+}
+
+/* Modal Dark Mode Support */
+[data-theme="dark"] .modal-content {
+  background-color: var(--rk-card);
+  color: var(--rk-fg);
+}
+
+[data-theme="dark"] .modal-header {
+  border-bottom-color: var(--rk-border);
+}
+
+[data-theme="dark"] .modal-footer {
+  border-top-color: var(--rk-border);
+}
+
+[data-theme="dark"] .modal-title {
+  color: var(--rk-fg);
+}
+
+[data-theme="dark"] .modal-body {
+  color: var(--rk-fg);
+}
+
+[data-theme="dark"] .modal-body p,
+[data-theme="dark"] .modal-body ul,
+[data-theme="dark"] .modal-body li {
+  color: var(--rk-muted);
+}
+
+[data-theme="dark"] .modal-header .text-muted {
+  color: var(--rk-muted) !important;
+}
+
+[data-theme="dark"] .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
 } 
