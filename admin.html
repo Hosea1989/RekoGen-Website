@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard — RekoGen</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#111827" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      /* Admin-specific styles */
+      .admin-login {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--rk-bg);
+      }
+      
+      .admin-login-card {
+        background: var(--rk-card);
+        border: 1px solid var(--rk-border);
+        border-radius: 20px;
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+      }
+      
+      .admin-header {
+        background: var(--rk-card);
+        border-bottom: 1px solid var(--rk-border);
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      
+      .admin-stats {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      
+      .admin-stat {
+        background: var(--rk-bg);
+        border: 1px solid var(--rk-border);
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        text-align: center;
+      }
+      
+      .admin-stat-number {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--rk-primary);
+      }
+      
+      .admin-stat-label {
+        font-size: 0.8rem;
+        color: var(--rk-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .admin-table-wrapper {
+        background: var(--rk-card);
+        border: 1px solid var(--rk-border);
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      
+      .admin-table {
+        margin: 0;
+        font-size: 0.9rem;
+      }
+      
+      .admin-table th {
+        background: var(--rk-bg);
+        border-bottom: 1px solid var(--rk-border);
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--rk-muted);
+        padding: 1rem;
+      }
+      
+      .admin-table td {
+        padding: 0.875rem 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--rk-border);
+        color: var(--rk-fg);
+      }
+      
+      .admin-table tr:last-child td {
+        border-bottom: none;
+      }
+      
+      .admin-table tbody tr:hover {
+        background: rgba(109, 94, 249, 0.05);
+      }
+      
+      .status-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 20px;
+        font-weight: 600;
+      }
+      
+      .status-pending {
+        background: rgba(251, 191, 36, 0.15);
+        color: #f59e0b;
+      }
+      
+      .status-invited {
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
+      }
+      
+      .status-active {
+        background: rgba(109, 94, 249, 0.15);
+        color: var(--rk-primary);
+      }
+      
+      .email-composer {
+        background: var(--rk-card);
+        border: 1px solid var(--rk-border);
+        border-radius: 16px;
+        padding: 1.5rem;
+      }
+      
+      .template-btn {
+        background: var(--rk-bg);
+        border: 1px solid var(--rk-border);
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+      
+      .template-btn:hover {
+        border-color: var(--rk-primary);
+        background: rgba(109, 94, 249, 0.05);
+      }
+      
+      .template-btn.active {
+        border-color: var(--rk-primary);
+        background: rgba(109, 94, 249, 0.1);
+      }
+      
+      .email-preview {
+        background: white;
+        border: 1px solid var(--rk-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+      
+      [data-theme="dark"] .email-preview {
+        background: #1f2937;
+      }
+      
+      .sending-progress {
+        background: var(--rk-card);
+        border: 1px solid var(--rk-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+      
+      .hidden {
+        display: none !important;
+      }
+      
+      .import-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      
+      .import-modal-content {
+        background: var(--rk-card);
+        border: 1px solid var(--rk-border);
+        border-radius: 20px;
+        padding: 2rem;
+        width: 100%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+      
+      .import-dropzone {
+        border: 2px dashed var(--rk-border);
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      .import-dropzone:hover,
+      .import-dropzone.dragover {
+        border-color: var(--rk-primary);
+        background: rgba(109, 94, 249, 0.05);
+      }
+      
+      .import-preview-table {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      
+      .admin-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      
+      .filter-pills {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      
+      .filter-pill {
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        border: 1px solid var(--rk-border);
+        background: var(--rk-bg);
+        color: var(--rk-fg);
+        transition: all 0.2s ease;
+      }
+      
+      .filter-pill:hover,
+      .filter-pill.active {
+        border-color: var(--rk-primary);
+        background: rgba(109, 94, 249, 0.1);
+        color: var(--rk-primary);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="admin-login">
+      <div class="admin-login-card">
+        <div class="text-center mb-4">
+          <h1 class="h4 fw-bold">🔐 Admin Access</h1>
+          <p class="text-secondary mb-0">Enter your admin password</p>
+        </div>
+        <form id="login-form">
+          <div class="mb-3">
+            <input type="password" id="admin-password" class="form-control form-control-lg" placeholder="Password" required autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg w-100">Login</button>
+          <div id="login-error" class="text-danger text-center mt-3 small hidden"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Import CSV Modal -->
+    <div id="import-modal" class="import-modal hidden">
+      <div class="import-modal-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="h5 fw-bold mb-0">📤 Import CSV</h2>
+          <button id="import-modal-close" class="btn btn-outline-secondary btn-sm">✕</button>
+        </div>
+        
+        <div id="import-step-1">
+          <div id="import-dropzone" class="import-dropzone mb-3">
+            <div class="h4 mb-2">📁</div>
+            <div class="fw-semibold mb-1">Drop your CSV file here</div>
+            <div class="small text-secondary mb-3">or click to browse</div>
+            <input type="file" id="import-file" accept=".csv" class="hidden" />
+          </div>
+          
+          <div class="small text-secondary mb-3">
+            <strong>Required column:</strong> <code>email</code><br>
+            <strong>Optional columns:</strong> <code>name</code>, <code>platform</code>, <code>experience</code>, <code>referrer</code>, <code>notes</code>, <code>status</code>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">Or paste emails (one per line)</label>
+            <textarea id="import-paste" class="form-control" rows="4" placeholder="john@example.com&#10;sarah@example.com&#10;alex@example.com"></textarea>
+          </div>
+          
+          <button id="import-parse-btn" class="btn btn-primary w-100">Parse & Preview</button>
+        </div>
+        
+        <div id="import-step-2" class="hidden">
+          <div class="alert alert-info small mb-3">
+            <strong id="import-count">0</strong> emails found. Review before importing:
+          </div>
+          
+          <div class="import-preview-table mb-3">
+            <table class="table table-sm admin-table">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="import-preview-body"></tbody>
+            </table>
+          </div>
+          
+          <div id="import-duplicates" class="alert alert-warning small mb-3 hidden">
+            <strong id="duplicate-count">0</strong> duplicates will be skipped (already in waitlist)
+          </div>
+          
+          <div class="d-flex gap-2">
+            <button id="import-back-btn" class="btn btn-outline-secondary">← Back</button>
+            <button id="import-confirm-btn" class="btn btn-primary flex-grow-1">Import <span id="import-new-count">0</span> New Signups</button>
+          </div>
+        </div>
+        
+        <div id="import-step-3" class="hidden">
+          <div class="text-center py-4">
+            <div id="import-progress-icon" class="h2 mb-3">⏳</div>
+            <div id="import-progress-text" class="fw-semibold mb-2">Importing...</div>
+            <div class="progress" style="height: 8px;">
+              <div id="import-progress-bar" class="progress-bar bg-primary" style="width: 0%"></div>
+            </div>
+            <div id="import-progress-detail" class="small text-secondary mt-2">0 / 0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Dashboard (hidden until logged in) -->
+    <div id="admin-dashboard" class="hidden">
+      <!-- Header -->
+      <header class="admin-header">
+        <div class="container-fluid px-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h1 class="h5 fw-bold mb-0">📊 Waitlist Admin</h1>
+              <small class="text-secondary">Manage signups and send invites</small>
+            </div>
+            <div class="d-flex gap-2">
+              <button id="refresh-btn" class="btn btn-outline-secondary btn-sm">🔄 Refresh</button>
+              <button id="import-btn" class="btn btn-outline-secondary btn-sm">📤 Import CSV</button>
+              <button id="export-btn" class="btn btn-outline-secondary btn-sm">📥 Export CSV</button>
+              <button id="logout-btn" class="btn btn-outline-danger btn-sm">Logout</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="py-4">
+        <div class="container-fluid px-4">
+          <!-- Stats -->
+          <div class="admin-stats mb-4">
+            <div class="admin-stat">
+              <div class="admin-stat-number" id="stat-total">-</div>
+              <div class="admin-stat-label">Total Signups</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-number" id="stat-pending">-</div>
+              <div class="admin-stat-label">Pending</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-number" id="stat-invited">-</div>
+              <div class="admin-stat-label">Invited</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-number" id="stat-active">-</div>
+              <div class="admin-stat-label">Active</div>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <!-- Signups Table -->
+            <div class="col-lg-7">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h6 fw-bold mb-0">Signups</h2>
+                <div class="filter-pills">
+                  <button class="filter-pill active" data-filter="all">All</button>
+                  <button class="filter-pill" data-filter="pending">Pending</button>
+                  <button class="filter-pill" data-filter="invited">Invited</button>
+                  <button class="filter-pill" data-filter="active">Active</button>
+                </div>
+              </div>
+              
+              <div class="admin-actions mb-3">
+                <button id="select-all-btn" class="btn btn-outline-secondary btn-sm">☑️ Select All Visible</button>
+                <button id="select-pending-btn" class="btn btn-outline-secondary btn-sm">Select All Pending</button>
+                <span id="selected-count" class="text-secondary small">0 selected</span>
+              </div>
+
+              <div class="admin-table-wrapper">
+                <table class="table admin-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 40px;"><input type="checkbox" id="check-all" /></th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Status</th>
+                      <th>Signed Up</th>
+                    </tr>
+                  </thead>
+                  <tbody id="signups-table">
+                    <tr>
+                      <td colspan="5" class="text-center text-secondary py-4">Loading...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Email Composer -->
+            <div class="col-lg-5">
+              <h2 class="h6 fw-bold mb-3">✉️ Compose Email</h2>
+              
+              <div class="email-composer">
+                <!-- Templates -->
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold">Quick Templates</label>
+                  <div class="d-flex flex-column gap-2">
+                    <button class="template-btn" data-template="testflight">
+                      <div class="fw-semibold">🚀 TestFlight Invite</div>
+                      <div class="small text-secondary">Send beta access link</div>
+                    </button>
+                    <button class="template-btn" data-template="update">
+                      <div class="fw-semibold">📣 Update Announcement</div>
+                      <div class="small text-secondary">Share new features</div>
+                    </button>
+                    <button class="template-btn" data-template="custom">
+                      <div class="fw-semibold">✏️ Custom Email</div>
+                      <div class="small text-secondary">Write your own message</div>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Subject -->
+                <div class="mb-3">
+                  <label for="email-subject" class="form-label small fw-semibold">Subject</label>
+                  <input type="text" id="email-subject" class="form-control" placeholder="Email subject..." />
+                </div>
+
+                <!-- Body -->
+                <div class="mb-3">
+                  <label for="email-body" class="form-label small fw-semibold">Message</label>
+                  <textarea id="email-body" class="form-control" rows="8" placeholder="Write your email..."></textarea>
+                  <div class="small text-secondary mt-1">Use <code>{{name}}</code> to personalize with recipient's name</div>
+                </div>
+
+                <!-- TestFlight Link -->
+                <div class="mb-3">
+                  <label for="testflight-link" class="form-label small fw-semibold">TestFlight Link</label>
+                  <input type="url" id="testflight-link" class="form-control" placeholder="https://testflight.apple.com/join/..." />
+                </div>
+
+                <!-- Website Link -->
+                <div class="mb-3">
+                  <label for="website-link" class="form-label small fw-semibold">Website Link</label>
+                  <input type="url" id="website-link" class="form-control" value="https://rekogen.app" placeholder="https://rekogen.app" />
+                  <div class="small text-secondary mt-1">Use <code>{{website_link}}</code> in your message</div>
+                </div>
+
+                <!-- Preview -->
+                <div class="mb-3">
+                  <button id="preview-btn" class="btn btn-outline-secondary btn-sm w-100">👁️ Preview Email</button>
+                </div>
+
+                <div id="email-preview-container" class="mb-3 hidden">
+                  <label class="form-label small fw-semibold">Preview</label>
+                  <div class="email-preview" id="email-preview"></div>
+                </div>
+
+                <!-- Send Button -->
+                <button id="send-btn" class="btn btn-primary w-100 btn-lg" disabled>
+                  Send to <span id="send-count">0</span> Recipients
+                </button>
+              </div>
+
+              <!-- Sending Progress -->
+              <div id="sending-progress" class="sending-progress mt-3 hidden">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="fw-semibold">Sending emails...</span>
+                  <span id="progress-text">0 / 0</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                  <div id="progress-bar" class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
+                </div>
+                <div id="progress-log" class="small text-secondary mt-2" style="max-height: 100px; overflow-y: auto;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Config files -->
+    <script src="js/config.public.js"></script>
+    <script src="js/config.keys.js"></script>
+    
+    <script>
+      // ============================================
+      // ADMIN DASHBOARD SCRIPT
+      // ============================================
+      
+      // Configuration
+      // Password is client-side only (security through obscurity via hidden URL)
+      const ADMIN_PASSWORD = window.PRIVATE_KEYS?.ADMIN_PASSWORD || 'RekoGen2026!';
+      const RESEND_API_KEY = window.PRIVATE_KEYS?.RESEND_API_KEY || window.CONFIG?.RESEND_API_KEY;
+      const FROM_EMAIL = window.PRIVATE_KEYS?.FROM_EMAIL || window.CONFIG?.FROM_EMAIL || 'onboarding@resend.dev';
+      const FROM_NAME = window.PRIVATE_KEYS?.FROM_NAME || 'Damien from RekoGen';
+      const CLOUD_FUNCTION_URL = window.PRIVATE_KEYS?.CLOUD_FUNCTION_URL || 'https://us-central1-rekogen-website.cloudfunctions.net/sendEmail';
+      
+      // State
+      let signups = [];
+      let selectedIds = new Set();
+      let currentFilter = 'all';
+      let db = null;
+      
+      // DOM Elements
+      const loginScreen = document.getElementById('login-screen');
+      const dashboard = document.getElementById('admin-dashboard');
+      const loginForm = document.getElementById('login-form');
+      const loginError = document.getElementById('login-error');
+      const signupsTable = document.getElementById('signups-table');
+      
+      // Email Templates
+      const templates = {
+        testflight: {
+          subject: "🎬 Your RekoGen Beta Invite is Here!",
+          body: `Hey {{name}},
+
+Great news! You're officially invited to the RekoGen beta! 🎉
+
+As one of our early supporters, you get exclusive access to try the app before anyone else.
+
+👉 **Join the Beta:** {{testflight_link}}
+
+**What you'll get:**
+• AI-powered anime recommendations
+• Find where to stream any anime
+• Discover forgotten gems and hidden classics
+• Connect with fans in Realms
+
+We're actively developing new features based on beta tester feedback, so your input matters.
+
+Learn more about RekoGen: {{website_link}}
+
+If you have any questions or feedback, just reply to this email.
+
+Happy watching! 🍿
+
+— Damien
+Creator of RekoGen`
+        },
+        update: {
+          subject: "📣 New RekoGen Update — What's New",
+          body: `Hey {{name}},
+
+We just shipped a major update to RekoGen! Here's what's new:
+
+🚀 **New Features:**
+• RekoGen AI Wizard for personalized recommendations
+• Improved profile customization
+• QR code friend requests
+• New Activity tab
+• And much more!
+
+Check out the full patch notes: {{website_link}}/patch-notes.html
+
+If you haven't joined the beta yet, here's your invite:
+👉 {{testflight_link}}
+
+Thanks for being part of the RekoGen community!
+
+— Damien`
+        },
+        custom: {
+          subject: "",
+          body: `Hey {{name}},
+
+[Your message here]
+
+Learn more: {{website_link}}
+
+— Damien
+Creator of RekoGen`
+        }
+      };
+      
+      // ============================================
+      // AUTHENTICATION
+      // ============================================
+      
+      function checkAuth() {
+        const isLoggedIn = sessionStorage.getItem('admin_logged_in') === 'true';
+        if (isLoggedIn) {
+          showDashboard();
+        }
+      }
+      
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const password = document.getElementById('admin-password').value;
+        
+        if (password === ADMIN_PASSWORD) {
+          sessionStorage.setItem('admin_logged_in', 'true');
+          showDashboard();
+        } else {
+          loginError.textContent = 'Incorrect password';
+          loginError.classList.remove('hidden');
+        }
+      });
+      
+      document.getElementById('logout-btn').addEventListener('click', () => {
+        sessionStorage.removeItem('admin_logged_in');
+        location.reload();
+      });
+      
+      function showDashboard() {
+        loginScreen.classList.add('hidden');
+        dashboard.classList.remove('hidden');
+        initFirebase();
+        loadSignups();
+      }
+      
+      // ============================================
+      // FIREBASE
+      // ============================================
+      
+      function initFirebase() {
+        try {
+          const firebaseConfig = {
+            apiKey: window.CONFIG?.FIREBASE_API_KEY,
+            authDomain: window.CONFIG?.FIREBASE_AUTH_DOMAIN,
+            projectId: window.CONFIG?.FIREBASE_PROJECT_ID,
+            storageBucket: window.CONFIG?.FIREBASE_STORAGE_BUCKET,
+            messagingSenderId: window.CONFIG?.FIREBASE_MESSAGING_SENDER_ID,
+            appId: window.CONFIG?.FIREBASE_APP_ID
+          };
+          
+          if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+          }
+          db = firebase.firestore();
+          console.log('Firebase initialized');
+        } catch (error) {
+          console.error('Firebase init error:', error);
+        }
+      }
+      
+      async function loadSignups() {
+        try {
+          signupsTable.innerHTML = '<tr><td colspan="5" class="text-center text-secondary py-4">Loading...</td></tr>';
+          
+          const snapshot = await db.collection('waitlist').orderBy('created_at', 'desc').get();
+          
+          signups = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            created_at: doc.data().created_at?.toDate() || new Date()
+          }));
+          
+          updateStats();
+          renderTable();
+          console.log(`Loaded ${signups.length} signups`);
+        } catch (error) {
+          console.error('Error loading signups:', error);
+          signupsTable.innerHTML = `<tr><td colspan="5" class="text-center text-danger py-4">Error: ${error.message}</td></tr>`;
+        }
+      }
+      
+      async function updateSignupStatus(id, status) {
+        try {
+          await db.collection('waitlist').doc(id).update({
+            status: status,
+            updated_at: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          
+          // Update local state
+          const signup = signups.find(s => s.id === id);
+          if (signup) signup.status = status;
+          
+        } catch (error) {
+          console.error('Error updating status:', error);
+        }
+      }
+      
+      // ============================================
+      // TABLE RENDERING
+      // ============================================
+      
+      function updateStats() {
+        const total = signups.length;
+        const pending = signups.filter(s => !s.status || s.status === 'pending').length;
+        const invited = signups.filter(s => s.status === 'invited').length;
+        const active = signups.filter(s => s.status === 'active').length;
+        
+        document.getElementById('stat-total').textContent = total;
+        document.getElementById('stat-pending').textContent = pending;
+        document.getElementById('stat-invited').textContent = invited;
+        document.getElementById('stat-active').textContent = active;
+      }
+      
+      function renderTable() {
+        let filtered = signups;
+        
+        if (currentFilter !== 'all') {
+          if (currentFilter === 'pending') {
+            filtered = signups.filter(s => !s.status || s.status === 'pending');
+          } else {
+            filtered = signups.filter(s => s.status === currentFilter);
+          }
+        }
+        
+        if (filtered.length === 0) {
+          signupsTable.innerHTML = '<tr><td colspan="5" class="text-center text-secondary py-4">No signups found</td></tr>';
+          return;
+        }
+        
+        signupsTable.innerHTML = filtered.map(signup => {
+          const status = signup.status || 'pending';
+          const statusClass = `status-${status}`;
+          const isSelected = selectedIds.has(signup.id);
+          const date = signup.created_at ? new Date(signup.created_at).toLocaleDateString() : 'Unknown';
+          
+          return `
+            <tr data-id="${signup.id}">
+              <td><input type="checkbox" class="signup-check" data-id="${signup.id}" ${isSelected ? 'checked' : ''} /></td>
+              <td>${signup.name || '<span class="text-muted">—</span>'}</td>
+              <td><a href="mailto:${signup.email}">${signup.email}</a></td>
+              <td><span class="status-badge ${statusClass}">${status}</span></td>
+              <td class="text-secondary">${date}</td>
+            </tr>
+          `;
+        }).join('');
+        
+        // Attach checkbox listeners
+        document.querySelectorAll('.signup-check').forEach(cb => {
+          cb.addEventListener('change', (e) => {
+            const id = e.target.dataset.id;
+            if (e.target.checked) {
+              selectedIds.add(id);
+            } else {
+              selectedIds.delete(id);
+            }
+            updateSelectedCount();
+          });
+        });
+      }
+      
+      function updateSelectedCount() {
+        const count = selectedIds.size;
+        document.getElementById('selected-count').textContent = `${count} selected`;
+        document.getElementById('send-count').textContent = count;
+        document.getElementById('send-btn').disabled = count === 0;
+      }
+      
+      // ============================================
+      // FILTERS & SELECTION
+      // ============================================
+      
+      document.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentFilter = pill.dataset.filter;
+          renderTable();
+        });
+      });
+      
+      document.getElementById('select-all-btn').addEventListener('click', () => {
+        const checkboxes = document.querySelectorAll('.signup-check');
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        
+        checkboxes.forEach(cb => {
+          cb.checked = !allChecked;
+          if (!allChecked) {
+            selectedIds.add(cb.dataset.id);
+          } else {
+            selectedIds.delete(cb.dataset.id);
+          }
+        });
+        updateSelectedCount();
+      });
+      
+      document.getElementById('select-pending-btn').addEventListener('click', () => {
+        selectedIds.clear();
+        signups.filter(s => !s.status || s.status === 'pending').forEach(s => {
+          selectedIds.add(s.id);
+        });
+        renderTable();
+        updateSelectedCount();
+      });
+      
+      document.getElementById('check-all').addEventListener('change', (e) => {
+        const checkboxes = document.querySelectorAll('.signup-check');
+        checkboxes.forEach(cb => {
+          cb.checked = e.target.checked;
+          if (e.target.checked) {
+            selectedIds.add(cb.dataset.id);
+          } else {
+            selectedIds.delete(cb.dataset.id);
+          }
+        });
+        updateSelectedCount();
+      });
+      
+      document.getElementById('refresh-btn').addEventListener('click', loadSignups);
+      
+      // ============================================
+      // EMAIL COMPOSER
+      // ============================================
+      
+      document.querySelectorAll('.template-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          const template = templates[btn.dataset.template];
+          document.getElementById('email-subject').value = template.subject;
+          document.getElementById('email-body').value = template.body;
+        });
+      });
+      
+      document.getElementById('preview-btn').addEventListener('click', () => {
+        const subject = document.getElementById('email-subject').value;
+        const body = document.getElementById('email-body').value;
+        const testflightLink = document.getElementById('testflight-link').value || 'https://testflight.apple.com/join/YOUR_LINK';
+        const websiteLink = document.getElementById('website-link').value || 'https://rekogen.app';
+        
+        const html = generateEmailHtml('Preview User', body, testflightLink, websiteLink);
+        
+        document.getElementById('email-preview').innerHTML = `
+          <div style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e5e7eb;">
+            <strong>Subject:</strong> ${subject}
+          </div>
+          ${html}
+        `;
+        document.getElementById('email-preview-container').classList.remove('hidden');
+      });
+      
+      function generateEmailHtml(name, body, testflightLink, websiteLink = 'https://rekogen.app') {
+        // Replace placeholders
+        let content = body
+          .replace(/\{\{name\}\}/g, name || 'there')
+          .replace(/\{\{testflight_link\}\}/g, testflightLink)
+          .replace(/\{\{website_link\}\}/g, websiteLink);
+        
+        // Convert markdown-style formatting to HTML
+        content = content
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n/g, '<br>');
+        
+        return `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #374151;">
+            ${content}
+            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0 20px;">
+            <p style="font-size: 12px; color: #6b7280;">
+              You're receiving this because you signed up for the RekoGen waitlist.<br>
+              <a href="mailto:hello@rekogen.app" style="color: #6b7280;">Unsubscribe</a>
+            </p>
+          </div>
+        `;
+      }
+      
+      // ============================================
+      // SEND EMAILS
+      // ============================================
+      
+      document.getElementById('send-btn').addEventListener('click', sendEmails);
+      
+      async function sendEmails() {
+        const subject = document.getElementById('email-subject').value;
+        const body = document.getElementById('email-body').value;
+        const testflightLink = document.getElementById('testflight-link').value;
+        const websiteLink = document.getElementById('website-link').value || 'https://rekogen.app';
+        
+        if (!subject || !body) {
+          alert('Please enter a subject and message');
+          return;
+        }
+        
+        const selectedSignups = signups.filter(s => selectedIds.has(s.id));
+        
+        if (selectedSignups.length === 0) {
+          alert('Please select at least one recipient');
+          return;
+        }
+        
+        if (!confirm(`Send email to ${selectedSignups.length} recipient(s)?`)) {
+          return;
+        }
+        
+        // Show progress
+        const progressContainer = document.getElementById('sending-progress');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progressLog = document.getElementById('progress-log');
+        
+        progressContainer.classList.remove('hidden');
+        progressLog.innerHTML = '';
+        document.getElementById('send-btn').disabled = true;
+        
+        let sent = 0;
+        let failed = 0;
+        
+        for (const signup of selectedSignups) {
+          try {
+            const html = generateEmailHtml(signup.name, body, testflightLink, websiteLink);
+            
+            // Use Firebase Cloud Function to send email (avoids CORS issues)
+            const response = await fetch(CLOUD_FUNCTION_URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                from: `${FROM_NAME} <${FROM_EMAIL}>`,
+                to: signup.email,
+                subject: subject,
+                html: html
+              })
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok && result.success) {
+              sent++;
+              progressLog.innerHTML += `<div class="text-success">✓ Sent to ${signup.email}</div>`;
+              
+              // Update status to invited
+              await updateSignupStatus(signup.id, 'invited');
+            } else {
+              failed++;
+              progressLog.innerHTML += `<div class="text-danger">✗ Failed: ${signup.email} - ${result.error || 'Unknown error'}</div>`;
+            }
+          } catch (error) {
+            failed++;
+            progressLog.innerHTML += `<div class="text-danger">✗ Error: ${signup.email} - ${error.message}</div>`;
+          }
+          
+          // Update progress
+          const progress = ((sent + failed) / selectedSignups.length) * 100;
+          progressBar.style.width = `${progress}%`;
+          progressText.textContent = `${sent + failed} / ${selectedSignups.length}`;
+          
+          // Small delay between emails to avoid rate limiting
+          await new Promise(r => setTimeout(r, 200));
+        }
+        
+        // Done
+        progressLog.innerHTML += `<div class="fw-bold mt-2">Done! Sent: ${sent}, Failed: ${failed}</div>`;
+        document.getElementById('send-btn').disabled = false;
+        
+        // Refresh table
+        selectedIds.clear();
+        updateStats();
+        renderTable();
+        updateSelectedCount();
+      }
+      
+      // ============================================
+      // IMPORT CSV
+      // ============================================
+      
+      const importModal = document.getElementById('import-modal');
+      const importDropzone = document.getElementById('import-dropzone');
+      const importFile = document.getElementById('import-file');
+      const importPaste = document.getElementById('import-paste');
+      let importData = [];
+      let existingEmails = new Set();
+      
+      document.getElementById('import-btn').addEventListener('click', () => {
+        importModal.classList.remove('hidden');
+        // Cache existing emails for duplicate detection
+        existingEmails = new Set(signups.map(s => s.email.toLowerCase()));
+      });
+      
+      document.getElementById('import-modal-close').addEventListener('click', closeImportModal);
+      
+      importModal.addEventListener('click', (e) => {
+        if (e.target === importModal) closeImportModal();
+      });
+      
+      function closeImportModal() {
+        importModal.classList.add('hidden');
+        resetImportModal();
+      }
+      
+      function resetImportModal() {
+        document.getElementById('import-step-1').classList.remove('hidden');
+        document.getElementById('import-step-2').classList.add('hidden');
+        document.getElementById('import-step-3').classList.add('hidden');
+        importFile.value = '';
+        importPaste.value = '';
+        importData = [];
+      }
+      
+      // Drag and drop
+      importDropzone.addEventListener('click', () => importFile.click());
+      
+      importDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        importDropzone.classList.add('dragover');
+      });
+      
+      importDropzone.addEventListener('dragleave', () => {
+        importDropzone.classList.remove('dragover');
+      });
+      
+      importDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        importDropzone.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.name.endsWith('.csv')) {
+          parseCSVFile(file);
+        }
+      });
+      
+      importFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) parseCSVFile(file);
+      });
+      
+      function parseCSVFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const csv = e.target.result;
+          parseCSVContent(csv);
+        };
+        reader.readAsText(file);
+      }
+      
+      document.getElementById('import-parse-btn').addEventListener('click', () => {
+        const pastedText = importPaste.value.trim();
+        if (pastedText) {
+          // Parse pasted emails (one per line)
+          const emails = pastedText.split('\n')
+            .map(line => line.trim())
+            .filter(line => line && line.includes('@'));
+          
+          importData = emails.map(email => ({
+            email: email,
+            name: '',
+            status: 'pending'
+          }));
+          
+          showImportPreview();
+        }
+      });
+      
+      function parseCSVContent(csv) {
+        const lines = csv.split('\n').filter(line => line.trim());
+        if (lines.length < 2) {
+          alert('CSV file appears to be empty');
+          return;
+        }
+        
+        // Parse header
+        const header = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+        const emailIndex = header.indexOf('email');
+        
+        if (emailIndex === -1) {
+          alert('CSV must have an "email" column');
+          return;
+        }
+        
+        const nameIndex = header.indexOf('name');
+        const statusIndex = header.indexOf('status');
+        const platformIndex = header.indexOf('platform');
+        const experienceIndex = header.indexOf('experience');
+        const referrerIndex = header.indexOf('referrer');
+        const notesIndex = header.indexOf('notes');
+        
+        // Parse rows
+        importData = [];
+        for (let i = 1; i < lines.length; i++) {
+          const values = parseCSVLine(lines[i]);
+          const email = values[emailIndex]?.trim();
+          
+          if (email && email.includes('@')) {
+            importData.push({
+              email: email,
+              name: nameIndex >= 0 ? values[nameIndex]?.trim() || '' : '',
+              status: statusIndex >= 0 ? values[statusIndex]?.trim() || 'pending' : 'pending',
+              platform: platformIndex >= 0 ? values[platformIndex]?.trim() || 'ios' : 'ios',
+              experience: experienceIndex >= 0 ? values[experienceIndex]?.trim() || '' : '',
+              referrer: referrerIndex >= 0 ? values[referrerIndex]?.trim() || 'import' : 'import',
+              notes: notesIndex >= 0 ? values[notesIndex]?.trim() || '' : ''
+            });
+          }
+        }
+        
+        showImportPreview();
+      }
+      
+      function parseCSVLine(line) {
+        const values = [];
+        let current = '';
+        let inQuotes = false;
+        
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            values.push(current.trim());
+            current = '';
+          } else {
+            current += char;
+          }
+        }
+        values.push(current.trim());
+        return values;
+      }
+      
+      function showImportPreview() {
+        if (importData.length === 0) {
+          alert('No valid emails found');
+          return;
+        }
+        
+        // Check for duplicates
+        const newData = importData.filter(d => !existingEmails.has(d.email.toLowerCase()));
+        const duplicates = importData.length - newData.length;
+        
+        document.getElementById('import-count').textContent = importData.length;
+        document.getElementById('import-new-count').textContent = newData.length;
+        
+        if (duplicates > 0) {
+          document.getElementById('duplicate-count').textContent = duplicates;
+          document.getElementById('import-duplicates').classList.remove('hidden');
+        } else {
+          document.getElementById('import-duplicates').classList.add('hidden');
+        }
+        
+        // Show preview table
+        const tbody = document.getElementById('import-preview-body');
+        tbody.innerHTML = importData.slice(0, 50).map(d => {
+          const isDuplicate = existingEmails.has(d.email.toLowerCase());
+          return `
+            <tr class="${isDuplicate ? 'text-muted' : ''}">
+              <td>${d.email} ${isDuplicate ? '<span class="badge bg-warning-subtle text-warning">duplicate</span>' : ''}</td>
+              <td>${d.name || '—'}</td>
+              <td><span class="status-badge status-${d.status}">${d.status}</span></td>
+            </tr>
+          `;
+        }).join('');
+        
+        if (importData.length > 50) {
+          tbody.innerHTML += `<tr><td colspan="3" class="text-center text-secondary">... and ${importData.length - 50} more</td></tr>`;
+        }
+        
+        document.getElementById('import-step-1').classList.add('hidden');
+        document.getElementById('import-step-2').classList.remove('hidden');
+        
+        document.getElementById('import-confirm-btn').disabled = newData.length === 0;
+      }
+      
+      document.getElementById('import-back-btn').addEventListener('click', () => {
+        document.getElementById('import-step-1').classList.remove('hidden');
+        document.getElementById('import-step-2').classList.add('hidden');
+      });
+      
+      document.getElementById('import-confirm-btn').addEventListener('click', importSignups);
+      
+      async function importSignups() {
+        const newData = importData.filter(d => !existingEmails.has(d.email.toLowerCase()));
+        
+        if (newData.length === 0) {
+          alert('No new signups to import');
+          return;
+        }
+        
+        // Show progress
+        document.getElementById('import-step-2').classList.add('hidden');
+        document.getElementById('import-step-3').classList.remove('hidden');
+        
+        const progressBar = document.getElementById('import-progress-bar');
+        const progressDetail = document.getElementById('import-progress-detail');
+        const progressText = document.getElementById('import-progress-text');
+        const progressIcon = document.getElementById('import-progress-icon');
+        
+        let imported = 0;
+        let failed = 0;
+        
+        for (const signup of newData) {
+          try {
+            await db.collection('waitlist').add({
+              email: signup.email,
+              name: signup.name || '',
+              platform: signup.platform || 'ios',
+              experience: signup.experience || '',
+              referrer: signup.referrer || 'import',
+              notes: signup.notes || '',
+              status: signup.status || 'pending',
+              consent: false,
+              created_at: firebase.firestore.FieldValue.serverTimestamp(),
+              updated_at: firebase.firestore.FieldValue.serverTimestamp(),
+              imported: true
+            });
+            imported++;
+          } catch (error) {
+            console.error('Import error:', error);
+            failed++;
+          }
+          
+          const progress = ((imported + failed) / newData.length) * 100;
+          progressBar.style.width = `${progress}%`;
+          progressDetail.textContent = `${imported + failed} / ${newData.length}`;
+        }
+        
+        // Done
+        progressIcon.textContent = '✅';
+        progressText.textContent = `Imported ${imported} signups` + (failed > 0 ? `, ${failed} failed` : '');
+        
+        // Refresh after 2 seconds
+        setTimeout(() => {
+          closeImportModal();
+          loadSignups();
+        }, 2000);
+      }
+      
+      // ============================================
+      // EXPORT CSV
+      // ============================================
+      
+      document.getElementById('export-btn').addEventListener('click', () => {
+        const headers = ['Name', 'Email', 'Platform', 'Experience', 'Referrer', 'Status', 'Signed Up', 'Notes'];
+        
+        const rows = signups.map(s => [
+          s.name || '',
+          s.email || '',
+          s.platform || '',
+          s.experience || '',
+          s.referrer || '',
+          s.status || 'pending',
+          s.created_at ? new Date(s.created_at).toISOString() : '',
+          (s.notes || '').replace(/"/g, '""')
+        ]);
+        
+        const csv = [
+          headers.join(','),
+          ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+        ].join('\n');
+        
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `rekogen-waitlist-${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+      
+      // ============================================
+      // INIT
+      // ============================================
+      
+      checkAuth();
+    </script>
+  </body>
+</html>
+

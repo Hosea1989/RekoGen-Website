@@ -12,18 +12,23 @@
   <body>
     <div data-include="partials/navbar.html"></div>
 
-    <header class="py-5 bg-gradient border-bottom border-secondary-subtle">
-      <div class="container">
+    <header class="py-5 bg-gradient border-bottom border-secondary-subtle header-flare">
+      <!-- Floating orbs -->
+      <div class="flare-orb flare-orb-1"></div>
+      <div class="flare-orb flare-orb-2"></div>
+      <div class="flare-orb flare-orb-3"></div>
+      <div class="container position-relative">
         <h1 class="fw-bold">Meet the Developer</h1>
         <p class="text-secondary mb-0">The story, the vision, and how to get involved.</p>
       </div>
     </header>
 
-    <main class="py-5">
+    <main class="py-5 position-relative">
+      <div class="section-glow section-glow-left"></div>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-9">
-            <div class="card bg-white border-secondary-subtle mb-4">
+            <div class="card bg-white border-secondary-subtle mb-4 card-shimmer">
               <div class="card-body p-4 p-lg-5 d-flex flex-column flex-md-row align-items-start gap-4">
                 <img src="assets/dev.png" alt="Developer photo" class="dev-photo flex-shrink-0" />
                 <div>
@@ -50,7 +55,7 @@
 
             <div class="row g-4">
               <div class="col-md-6">
-                <div class="card bg-white border-secondary-subtle h-100">
+                <div class="card bg-white border-secondary-subtle h-100 card-shimmer">
                   <div class="card-body">
                     <h3 class="h5 fw-bold">Vision</h3>
                     <p class="text-secondary">To help people discover new anime while creating a community that makes people feel heard—solving the overwhelming choice problem and streaming fragmentation.</p>
@@ -66,9 +71,9 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="card bg-white border-secondary-subtle h-100">
+                <div class="card bg-white border-secondary-subtle h-100 card-shimmer">
                   <div class="card-body">
-                    <h3 class="h5 fw-bold">What’s Next</h3>
+                    <h3 class="h5 fw-bold">What's Next</h3>
                     <ul class="mb-2">
                       <li>Recommendation model v2: better cold‑start, mood/genre weighting, and explain‑why.</li>
                       <li>Realm discovery: trending topics, tags, and suggestions based on your activity.</li>
@@ -83,7 +88,7 @@
               </div>
             </div>
 
-            <div class="card bg-white border-secondary-subtle mt-4">
+            <div class="card bg-white border-secondary-subtle mt-4 card-shimmer">
               <div class="card-body p-4 p-lg-5">
                 <h3 class="h5 fw-bold mb-2">Contact Me</h3>
                 <p class="text-secondary mb-3">Questions, feedback, or collaboration ideas? Send me a message here and it’ll open your email with everything filled in.</p>

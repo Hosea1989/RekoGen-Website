@@ -12,14 +12,19 @@
   <body>
     <div data-include="partials/navbar.html"></div>
 
-    <header class="py-5 bg-gradient border-bottom border-secondary-subtle">
-      <div class="container">
+    <header class="py-5 bg-gradient border-bottom border-secondary-subtle header-flare">
+      <!-- Floating orbs -->
+      <div class="flare-orb flare-orb-1"></div>
+      <div class="flare-orb flare-orb-2"></div>
+      <div class="flare-orb flare-orb-3"></div>
+      <div class="container position-relative">
         <h1 class="fw-bold">Frequently Asked Questions</h1>
         <p class="text-secondary mb-0">Quick answers about recommendations, Realms, privacy, and the beta.</p>
       </div>
     </header>
 
-    <main class="py-5">
+    <main class="py-5 position-relative">
+      <div class="section-glow section-glow-left"></div>
       <div class="container">
         <div class="accordion accordion-theme" id="faqAccordion">
           <div class="accordion-item">
@@ -30,7 +35,7 @@
             </h2>
             <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
               <div class="accordion-body text-secondary">
-                RekoGen is the Anime Recommendation Generator—an app that helps you quickly find anime worth checking out and gives you tools to discuss and share with others.
+                RekoGen is an anime discovery platform that solves two problems: <strong>what to watch</strong> and <strong>where to watch it</strong>. Unlike databases that just list anime, RekoGen recommends shows based on your taste and tells you exactly which streaming platform has it—Crunchyroll, Netflix, Hulu, Prime Video, and more. You can also join Realms (fan communities) to discuss anime with other fans.
               </div>
             </div>
           </div>
@@ -69,7 +74,7 @@
             </h2>
             <div id="faqCollapseFour" class="accordion-collapse collapse" aria-labelledby="faqFour" data-bs-parent="#faqAccordion">
               <div class="accordion-body text-secondary">
-                The plan is to keep RekoGen free. If we add premium options later, core discovery and community will remain free.
+                <strong>Yes, RekoGen is free</strong> and always will be for core features: browsing anime, basic recommendations, unlimited watchlists, streaming info, and joining public Realms. We're also introducing <a href="rekogen-plus.html">RekoGen Plus</a> ($4.99/month or $39.99/year) for power users who want the AI Wizard, ability to create Realms, exclusive badges, premium themes, and an ad-free experience.
               </div>
             </div>
           </div>
@@ -121,7 +126,59 @@
             </h2>
             <div id="faqCollapseEight" class="accordion-collapse collapse" aria-labelledby="faqEight" data-bs-parent="#faqAccordion">
               <div class="accordion-body text-secondary">
-                Not yet. With enough requests, importing from popular trackers can become a future feature—tell us which services you’d like supported.
+                Not yet. With enough requests, importing from popular trackers can become a future feature—tell us which services you'd like supported.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqNine">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseNine" aria-expanded="false" aria-controls="faqCollapseNine">
+                How is RekoGen different from MyAnimeList or AniList?
+              </button>
+            </h2>
+            <div id="faqCollapseNine" class="accordion-collapse collapse" aria-labelledby="faqNine" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-secondary">
+                <strong>RekoGen isn't a database—it's a discovery platform.</strong> MAL and AniList are great for cataloging what you've watched, but they don't solve the "where do I stream this?" problem. RekoGen shows you which platform has each anime (Crunchyroll, Netflix, Hulu, etc.), recommends shows based on your mood and preferences, and lets you connect with fans in Realms. We're focused on helping you decide what to watch next, not just tracking what you've already seen.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqTen">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTen" aria-expanded="false" aria-controls="faqCollapseTen">
+                What is RekoGen Plus?
+              </button>
+            </h2>
+            <div id="faqCollapseTen" class="accordion-collapse collapse" aria-labelledby="faqTen" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-secondary">
+                <a href="rekogen-plus.html">RekoGen Plus</a> is our premium tier for power users. It includes the AI Wizard (personalized recommendations based on your mood and preferences), ability to create your own Realms, exclusive profile badges, premium app themes, advanced community stats, and an ad-free experience. Pricing is $4.99/month or $39.99/year, both with a 3-day free trial.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqEleven">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseEleven" aria-expanded="false" aria-controls="faqCollapseEleven">
+                How does "where to watch" work?
+              </button>
+            </h2>
+            <div id="faqCollapseEleven" class="accordion-collapse collapse" aria-labelledby="faqEleven" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-secondary">
+                Every anime in RekoGen shows which streaming platforms currently have it available. We track availability across Crunchyroll, Netflix, Hulu, Amazon Prime Video, Disney+, HIDIVE, and more. When you find something to watch, you'll know exactly where to stream it—no more Googling or checking multiple apps.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqTwelve">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwelve" aria-expanded="false" aria-controls="faqCollapseTwelve">
+                Can RekoGen help me find older or forgotten anime?
+              </button>
+            </h2>
+            <div id="faqCollapseTwelve" class="accordion-collapse collapse" aria-labelledby="faqTwelve" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-secondary">
+                <strong>Yes!</strong> This is actually one of our core goals. Most recommendation systems push trending or popular shows, but RekoGen can help you discover hidden gems and forgotten anime that deserve more attention. With <a href="rekogen-plus.html">RekoGen Plus</a>, the AI Wizard specifically digs into underappreciated shows that match your taste—anime that slipped through the cracks but might become your new favorite.
               </div>
             </div>
           </div>

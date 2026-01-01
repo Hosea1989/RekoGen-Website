@@ -1,5 +1,9 @@
 # Configuration files with sensitive data
 js/config.js
+js/config.keys.js
+
+# Firebase Functions (contains API keys)
+functions/
 
 # Environment files
 .env
