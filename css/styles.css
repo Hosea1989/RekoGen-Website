@@ -446,8 +446,13 @@ header .container { position: relative; z-index: 1; }
 .streaming-site.s13 { background: linear-gradient(180deg,rgba(0,175,255,0.1),rgba(0,175,255,0.05)); } /* Pluto TV */
 
 /* Zoom specific logos that have extra padding */
+.streaming-site.s3 .streaming-logo { transform: scale(1.5); } /* Netflix - zoom in */
+.streaming-site.s4 .streaming-logo { transform: scale(1.5); } /* Hulu - zoom in */
 .streaming-site.s5 .streaming-logo { transform: scale(1.5); } /* Prime Video - zoom in */
+.streaming-site.s6 .streaming-logo { transform: scale(1.5); } /* Disney+ - zoom in */
+.streaming-site.s7 .streaming-logo { transform: scale(1.5); } /* HIDIVE - zoom in */
 .streaming-site.s9 .streaming-logo { transform: scale(1.8); } /* Max - zoom in */
+.streaming-site.s13 .streaming-logo { transform: scale(1.5); } /* Pluto TV - zoom in */
 
 /* Streaming logo styling */
 .streaming-logo {
