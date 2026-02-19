@@ -446,6 +446,7 @@ header .container { position: relative; z-index: 1; }
 .streaming-site.s13 { background: linear-gradient(180deg,rgba(0,175,255,0.1),rgba(0,175,255,0.05)); } /* Pluto TV */
 
 /* Zoom specific logos that have extra padding */
+.streaming-site.s5 .streaming-logo { transform: scale(1.5); } /* Prime Video - zoom in */
 .streaming-site.s9 .streaming-logo { transform: scale(1.8); } /* Max - zoom in */
 
 /* Streaming logo styling */
