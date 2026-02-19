@@ -118,11 +118,6 @@
         color: #10b981;
       }
       
-      .status-active {
-        background: rgba(109, 94, 249, 0.15);
-        color: var(--rk-primary);
-      }
-      
       .email-composer {
         background: var(--rk-card);
         border: 1px solid var(--rk-border);
@@ -372,10 +367,6 @@
               <div class="admin-stat-number" id="stat-invited">-</div>
               <div class="admin-stat-label">Invited</div>
             </div>
-            <div class="admin-stat">
-              <div class="admin-stat-number" id="stat-active">-</div>
-              <div class="admin-stat-label">Active</div>
-            </div>
           </div>
 
           <div class="row g-4">
@@ -387,13 +378,13 @@
                   <button class="filter-pill active" data-filter="all">All</button>
                   <button class="filter-pill" data-filter="pending">Pending</button>
                   <button class="filter-pill" data-filter="invited">Invited</button>
-                  <button class="filter-pill" data-filter="active">Active</button>
                 </div>
               </div>
               
               <div class="admin-actions mb-3">
                 <button id="select-all-btn" class="btn btn-outline-secondary btn-sm">☑️ Select All Visible</button>
                 <button id="select-pending-btn" class="btn btn-outline-secondary btn-sm">Select All Pending</button>
+                <button id="delete-selected-btn" class="btn btn-outline-danger btn-sm">🗑️ Delete Selected</button>
                 <span id="selected-count" class="text-secondary small">0 selected</span>
               </div>
 
@@ -406,11 +397,12 @@
                       <th>Email</th>
                       <th>Status</th>
                       <th>Signed Up</th>
+                      <th style="width: 60px;">Actions</th>
                     </tr>
                   </thead>
                   <tbody id="signups-table">
                     <tr>
-                      <td colspan="5" class="text-center text-secondary py-4">Loading...</td>
+                      <td colspan="6" class="text-center text-secondary py-4">Loading...</td>
                     </tr>
                   </tbody>
                 </table>
@@ -664,7 +656,7 @@ Creator of RekoGen`
       
       async function loadSignups() {
         try {
-          signupsTable.innerHTML = '<tr><td colspan="5" class="text-center text-secondary py-4">Loading...</td></tr>';
+          signupsTable.innerHTML = '<tr><td colspan="6" class="text-center text-secondary py-4">Loading...</td></tr>';
           
           const snapshot = await db.collection('waitlist').orderBy('created_at', 'desc').get();
           
@@ -679,7 +671,7 @@ Creator of RekoGen`
           console.log(`Loaded ${signups.length} signups`);
         } catch (error) {
           console.error('Error loading signups:', error);
-          signupsTable.innerHTML = `<tr><td colspan="5" class="text-center text-danger py-4">Error: ${error.message}</td></tr>`;
+          signupsTable.innerHTML = `<tr><td colspan="6" class="text-center text-danger py-4">Error: ${error.message}</td></tr>`;
         }
       }
       
@@ -699,6 +691,59 @@ Creator of RekoGen`
         }
       }
       
+      async function deleteSignup(id) {
+        try {
+          await db.collection('waitlist').doc(id).delete();
+          
+          // Remove from local state
+          signups = signups.filter(s => s.id !== id);
+          selectedIds.delete(id);
+          
+          updateStats();
+          renderTable();
+          updateSelectedCount();
+          
+          console.log('Deleted signup:', id);
+        } catch (error) {
+          console.error('Error deleting signup:', error);
+          alert('Failed to delete: ' + error.message);
+        }
+      }
+      
+      async function deleteSelected() {
+        const selected = signups.filter(s => selectedIds.has(s.id));
+        
+        if (selected.length === 0) {
+          alert('Please select at least one signup to delete');
+          return;
+        }
+        
+        if (!confirm(`Delete ${selected.length} signup(s)? This cannot be undone.`)) {
+          return;
+        }
+        
+        let deleted = 0;
+        let failed = 0;
+        
+        for (const signup of selected) {
+          try {
+            await db.collection('waitlist').doc(signup.id).delete();
+            signups = signups.filter(s => s.id !== signup.id);
+            selectedIds.delete(signup.id);
+            deleted++;
+          } catch (error) {
+            console.error('Error deleting:', signup.email, error);
+            failed++;
+          }
+        }
+        
+        updateStats();
+        renderTable();
+        updateSelectedCount();
+        
+        alert(`Deleted: ${deleted}, Failed: ${failed}`);
+      }
+      
       // ============================================
       // TABLE RENDERING
       // ============================================
@@ -707,12 +752,10 @@ Creator of RekoGen`
         const total = signups.length;
         const pending = signups.filter(s => !s.status || s.status === 'pending').length;
         const invited = signups.filter(s => s.status === 'invited').length;
-        const active = signups.filter(s => s.status === 'active').length;
         
         document.getElementById('stat-total').textContent = total;
         document.getElementById('stat-pending').textContent = pending;
         document.getElementById('stat-invited').textContent = invited;
-        document.getElementById('stat-active').textContent = active;
       }
       
       function renderTable() {
@@ -727,7 +770,7 @@ Creator of RekoGen`
         }
         
         if (filtered.length === 0) {
-          signupsTable.innerHTML = '<tr><td colspan="5" class="text-center text-secondary py-4">No signups found</td></tr>';
+          signupsTable.innerHTML = '<tr><td colspan="6" class="text-center text-secondary py-4">No signups found</td></tr>';
           return;
         }
         
@@ -744,6 +787,7 @@ Creator of RekoGen`
               <td><a href="mailto:${signup.email}">${signup.email}</a></td>
               <td><span class="status-badge ${statusClass}">${status}</span></td>
               <td class="text-secondary">${date}</td>
+              <td><button class="btn btn-sm btn-outline-danger delete-btn" data-id="${signup.id}" title="Delete">🗑️</button></td>
             </tr>
           `;
         }).join('');
@@ -758,6 +802,17 @@ Creator of RekoGen`
               selectedIds.delete(id);
             }
             updateSelectedCount();
+          });
+        });
+        
+        // Attach delete button listeners
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const id = e.target.dataset.id;
+            const signup = signups.find(s => s.id === id);
+            if (signup && confirm(`Delete ${signup.email}?`)) {
+              await deleteSignup(id);
+            }
           });
         });
       }
@@ -820,6 +875,8 @@ Creator of RekoGen`
       });
       
       document.getElementById('refresh-btn').addEventListener('click', loadSignups);
+      
+      document.getElementById('delete-selected-btn').addEventListener('click', deleteSelected);
       
       // ============================================
       // EMAIL COMPOSER
