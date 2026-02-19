@@ -439,6 +439,14 @@ header .container { position: relative; z-index: 1; }
 .streaming-site.s6 { background: linear-gradient(180deg,rgba(0,99,229,0.1),rgba(0,99,229,0.05)); } /* Disney+ Blue */
 .streaming-site.s7 { background: linear-gradient(180deg,rgba(255,107,53,0.1),rgba(255,107,53,0.05)); } /* HIDIVE Orange */
 .streaming-site.s8 { background: linear-gradient(180deg,rgba(255,107,107,0.1),rgba(255,107,107,0.05)); } /* VRV Red */
+.streaming-site.s9 { background: linear-gradient(180deg,rgba(0,35,246,0.1),rgba(0,35,246,0.05)); } /* Max Blue */
+.streaming-site.s10 { background: linear-gradient(180deg,rgba(250,80,80,0.1),rgba(250,80,80,0.05)); } /* Tubi Red */
+.streaming-site.s11 { background: linear-gradient(180deg,rgba(0,0,0,0.1),rgba(0,0,0,0.05)); } /* Peacock */
+.streaming-site.s12 { background: linear-gradient(180deg,rgba(0,0,0,0.1),rgba(0,0,0,0.05)); } /* Apple TV+ */
+.streaming-site.s13 { background: linear-gradient(180deg,rgba(0,175,255,0.1),rgba(0,175,255,0.05)); } /* Pluto TV */
+
+/* Zoom specific logos that have extra padding */
+.streaming-site.s9 .streaming-logo { transform: scale(1.8); } /* Max - zoom in */
 
 /* Streaming logo styling */
 .streaming-logo {
